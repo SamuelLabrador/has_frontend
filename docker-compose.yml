@@ -5,6 +5,6 @@ services:
     build: .
     command: npm start
     volumes: 
-      - .:/code
+      - .:/frontend
     ports:
       - "3000:3000"
