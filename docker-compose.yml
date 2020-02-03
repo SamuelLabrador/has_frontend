@@ -1,10 +1,16 @@
-version: '3'
+version: '3.7'
 
 services:
-  web:
+  frontend:
     build: .
     command: npm start
     volumes: 
-      - .:/frontend
+      - type: bind
+        source: .
+        target: /frontend
+      - node_modules:/frontend/node_modules
     ports:
       - "3000:3000"
+
+volumes:
+  node_modules:
