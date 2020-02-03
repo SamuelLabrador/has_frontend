@@ -1,0 +1,1 @@
+docker exec -i has_frontend_frontend_1 /bin/bash

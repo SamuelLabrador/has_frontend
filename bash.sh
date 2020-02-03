@@ -1,0 +1,1 @@
+sudo docker exec -it has_frontend_frontend_1 /bin/bash	
