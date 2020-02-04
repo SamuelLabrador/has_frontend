@@ -11,6 +11,6 @@ cache:
     - node_modules
 
 script:
-  - docker-compose run frontend npm build
+  - docker-compose run frontend npm run build
   - docker-compose run frontend npm test
 
