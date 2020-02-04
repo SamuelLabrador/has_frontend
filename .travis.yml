@@ -11,5 +11,11 @@ addons:
     packages:
       - docker-ce
 
+cache:
+  directories:
+    - node_modules
+
 script:
-  - docker compose run frontend npm test
+  - docker-compose run frontend bash
+  - npm build
+  - npm test
