@@ -3,13 +3,18 @@ version: '3.3'
 services:
   frontend:
     build: .
-    command: npm start
+    command: 
+      - npm link /node_modules
+      - npm start
     volumes: 
-      - type: bind
-        source: .
+      - type: volume
+        source: data
         target: /frontend
+      - type: bind
+        source: ./src
+        target: /frontend/src
     ports:
-      - "3000:3000"
+      - "3000:3000" 
 
 volumes:
-  node_modules:
+  data:
