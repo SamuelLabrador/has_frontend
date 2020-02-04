@@ -3,6 +3,7 @@ FROM node:12.14.1
 
 # Create and set working directory for our source code
 RUN mkdir /frontend
+RUN mkdir /frontend/node_modules
 WORKDIR /frontend
 
 # Install necessary packages.
