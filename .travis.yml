@@ -12,5 +12,5 @@ cache:
 
 script:
   - docker-compose run frontend npm run build
-  - docker-compose run frontend npm test
+  - docker-compose run frontend npm run test:ci
 
