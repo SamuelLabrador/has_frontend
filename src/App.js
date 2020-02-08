@@ -35,18 +35,35 @@ const Header = () => {
     </div>
   );
 };
+class NotificationWindow extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      //Holds list of notifications that are rendered on the screen
+    }
+  }
+  render(){
+    return(
+      <div className="Notification_Window">
+        Notification Window
+      </div>
+    )
+  }
+}
+
 class MainWindow extends Component{
   constructor(props){
     super(props);
     //initial state
-    this.state={
-
-    }
+    // this.state={
+    //   test: <Notification_Bubble/>
+    // }
   }
   render(){
     return(
       <div>
         <GoogleMap/>
+        <NotificationWindow/>
       </div>
     );
   }
