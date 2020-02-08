@@ -3,9 +3,7 @@ version: '3.3'
 services:
   frontend:
     build: .
-    command: 
-      - npm link /node_modules
-      - npm start
+    command: npm start
     volumes: 
       - type: volume
         source: data
