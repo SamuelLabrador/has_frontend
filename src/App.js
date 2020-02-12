@@ -62,7 +62,9 @@ class MainWindow extends Component{
   render(){
     return(
       <div className="Main_Window">
-        <GoogleMap/>
+        <GoogleMap options={{panControl: false,
+      mapTypeControl: false,
+      scrollwheel: false}}/>
         <NotificationWindow/>
       </div>
     );
