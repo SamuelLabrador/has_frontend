@@ -1,28 +1,28 @@
 import React, {Component, createRef} from 'react';
 import './App.css';
-import Map from './map'
+import GoogleMap from './components/map/map'
 
 //Map functionality
-class GoogleMap extends Component{
-  render(){
-    return(
-      <Map
-        id="myMap"
-        options={{
-          center: { lat: 41.0082, lng: 28.9784 },
-          zoom: 8
-        }}
-        onMapLoad={map => {
-          var marker = new window.google.maps.Marker({
-            position: { lat: 41.0082, lng: 28.9784 },
-            map: map,
-            title: 'Hello Istanbul!'
-          });
-        }}
-      />
-    );
-  }
-}
+// class GoogleMap extends Component{
+//   render(){
+//     return(
+//       <Map
+//         id="myMap"
+//         options={{
+//           center: { lat: 41.0082, lng: 28.9784 },
+//           zoom: 8
+//         }}
+//         onMapLoad={map => {
+//           var marker = new window.google.maps.Marker({
+//             position: { lat: 41.0082, lng: 28.9784 },
+//             map: map,
+//             title: 'Hello Istanbul!'
+//           });
+//         }}
+//       />
+//     );
+//   }
+// }
 //Map
 
 const Header = () => {
@@ -61,7 +61,7 @@ class MainWindow extends Component{
   }
   render(){
     return(
-      <div>
+      <div className="Main_Window">
         <GoogleMap/>
         <NotificationWindow/>
       </div>
