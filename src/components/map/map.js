@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 //import Marker from './marker/marker';
 //might need to make camera size dynamic as we zoom in and out
 
-const AnyReactComponent = (props: any) => <img src={require('./camera_icon.png')} alt="**HAS CAMERA ICON HERE**" style={{height: '40px'}}/>;
+const CameraComponent = (props: any) => <img src={require('./camera_icon.png')} alt="**HAS CAMERA ICON HERE**" style={{height: '40px'}}/>;
 
 const handleApiLoaded = (map, maps) => {
   // use map and maps objects
@@ -25,18 +25,18 @@ const GoogleMap = (props: any) => {
         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
     >
         {/*Markers can be specified here*/}
-        <AnyReactComponent  
+        <CameraComponent  
           lat={33.980530}
           lng={-117.377020}
         />
-        <AnyReactComponent  
+        <CameraComponent  
           lat={33.965018}
           lng={-117.377020}
         />
-        <AnyReactComponent  
+        <CameraComponent  
           lat={33.968214}
           lng={-117.339799}
-          
+
         />        
       </GoogleMapReact>
     </div>
