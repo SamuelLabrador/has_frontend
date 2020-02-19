@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import GoogleMap from './../map';
+import GoogleMap from 'google-map-react';
 afterEach(cleanup);
 
 test('Map Renders', () => {
