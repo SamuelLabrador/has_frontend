@@ -73,19 +73,6 @@ class HomepageMap extends React.Component{
           defaultZoom={this.props.zoom}
         >
           {cctvs}
-          <Marker  
-            lat={33.980530}
-            lng={-117.377020}
-          />
-          <Marker  
-            lat={33.965018}
-            lng={-117.377020}
-          />
-          <Marker  
-            lat={33.968214}
-            lng={-117.339799}
-          />       
-
         </GoogleMapReact>
       </div>
     );
