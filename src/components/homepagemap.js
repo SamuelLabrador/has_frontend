@@ -63,30 +63,16 @@ class HomepageMap extends React.Component{
           lng={d.longitude}
         />
     );
-
-    // var cctvs = <Marker lat={0} lng={0}/>
+    console.log(process.env.REACT_APP_GOOGLE_MAP_KEY);
 
     return(
       <div style={{ height: '80vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{key:''}}
+          bootstrapURLKeys={{ key:process.env.REACT_APP_GOOGLE_MAP_KEY }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
           {cctvs}
-          <Marker  
-            lat={33.980530}
-            lng={-117.377020}
-          />
-          <Marker  
-            lat={33.965018}
-            lng={-117.377020}
-          />
-          <Marker  
-            lat={33.968214}
-            lng={-117.339799}
-          />       
-
         </GoogleMapReact>
       </div>
     );
