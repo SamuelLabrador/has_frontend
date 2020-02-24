@@ -5,15 +5,15 @@ import GoogleMapReact from 'google-map-react';
 //reformat
 const InfoWindow = (props: any) => (
   (props.show && props.showInfoIndex === props.id) ? (
-  <div 
+  <div
     style={
       {background:"white",
-      border: "5px solid white", 
+      border: "5px solid white",
       borderRadius: 20,
-      width: 400, 
+      width: 400,
       height: 250}
     }>
-    <img 
+    <img
       //change
       src = {props.image_url}
       style={{
@@ -27,8 +27,8 @@ const InfoWindow = (props: any) => (
 
 const Marker = (props: any) => (
   <React.Fragment>
-    <InfoWindow 
-      image_url = {props.image_url} 
+    <InfoWindow
+      image_url = {props.image_url}
       lat = {props.lat}
       lng = {props.lng}
       id = {props.id}
@@ -36,15 +36,15 @@ const Marker = (props: any) => (
       showInfoIndex = {props.showInfoIndex}
       show={props.show}
     />
-    <img 
-      src='camera_icon.png' 
+    <img
+      src='camera_icon.png'
       alt="**HAS CAMERA ICON**"
       style={{height: '40px'}}
     />
   </React.Fragment>
 )
-  
-  
+
+
 
 class HomepageMap extends React.Component{
   static defaultProps = {
@@ -107,13 +107,13 @@ class HomepageMap extends React.Component{
   }
 
   _onChildMouseLeave = (key, childProps) => {
-    //dont hover 
+    //dont hover
   }
 
   render(){
     //TODO: Implement user current location detection
     var cctvs = this.state.cctvs.map(
-      (d) => 
+      (d) =>
         <Marker
           id={d.id}
           lat={d.latitude}
@@ -129,7 +129,7 @@ class HomepageMap extends React.Component{
     return(
       <div style={{ height: '80vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={"AIzaSyCguLfpwZcdS8Wgo3ZxXM8j7atCBkESZaY"}
+          bootstrapURLKeys={"INSERT API KEY HERE"}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
           onChildClick={this._onChildClick}
@@ -142,5 +142,5 @@ class HomepageMap extends React.Component{
     );
   }
 }
-  
+
 export default HomepageMap;
