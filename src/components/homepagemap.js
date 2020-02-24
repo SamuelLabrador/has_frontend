@@ -3,31 +3,36 @@ import GoogleMapReact from 'google-map-react';
 // import Marker from './marker.js';
 
 //reformat
-const InfoWindow = props => (
+const InfoWindow = (props: any) => (
   (props.show && props.showInfoIndex === props.id) ? (
   <div 
     style={
       {background:"white",
       border: "5px solid white", 
       borderRadius: 20,
-      width: 180, 
-      height: 180}
+      width: 400, 
+      height: 250}
     }>
     <img 
       //change
-      src = 'http://cwwp2.dot.ca.gov/data/d1/cctv/image/sr20atsr1lookingeast/sr20atsr1lookingeast.jpg'
+      src = {props.image_url}
       style={{
-        width: '150px',
-        height: '150px'
+        width: '380px'
       }}
     />
+    <div>Lat: {props.lat}  Long: {props.lng}</div>
+    <div> Route: {props.route} </div>
   </div>) : null
 )
 
 const Marker = (props: any) => (
   <React.Fragment>
-    <InfoWindow
+    <InfoWindow 
+      image_url = {props.image_url} 
+      lat = {props.lat}
+      lng = {props.lng}
       id = {props.id}
+      route = {props.route}
       showInfoIndex = {props.showInfoIndex}
       show={props.show}
     />
@@ -113,6 +118,8 @@ class HomepageMap extends React.Component{
           id={d.id}
           lat={d.latitude}
           lng={d.longitude}
+          image_url ={d.image_url}
+          route = {d.route}
           show={this.state.show}
           showInfoIndex={this.state.showInfoIndex}
         />
@@ -122,7 +129,7 @@ class HomepageMap extends React.Component{
     return(
       <div style={{ height: '80vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key:process.env.REACT_APP_GOOGLE_MAP_KEY }}
+          bootstrapURLKeys={"AIzaSyCguLfpwZcdS8Wgo3ZxXM8j7atCBkESZaY"}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
           onChildClick={this._onChildClick}
