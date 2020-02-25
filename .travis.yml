@@ -1,3 +1,5 @@
+language: javascript
+
 services:
   - docker
 
@@ -11,6 +13,6 @@ cache:
     - node_modules
 
 script:
-  - docker-compose run frontend npm run build
+  - docker-compose build 
   - docker-compose run frontend npm run test:ci
 
