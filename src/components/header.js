@@ -1,14 +1,11 @@
 import {Route, Switch, Link} from "react-router-dom";
-import React, {Component, createRef} from 'react';
+import React, {Component} from 'react';
 import Login from './login.js';
 import Analytics from './analytics.js';
 import Cameras from './cameras.js';
 import Home from './home.js'
 
 class Header extends Component{
-	constructor(props){
-		super(props);
-	}
 
 	render(){
 		return (

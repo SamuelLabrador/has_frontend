@@ -6,5 +6,4 @@ WORKDIR /frontend
 COPY . /frontend
 
 RUN npm install
-RUN npm install react-scripts react
 RUN ls

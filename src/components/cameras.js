@@ -36,7 +36,7 @@ class Cameras extends Component{
   		var content = [];
   		var row = [];
   		this.state.cctvs.forEach((tv, i) =>{
-  			if ((i + 1) % 5 == 0){
+  			if ((i + 1) % 5 === 0){
   				content.push(
   					<div className="row" style={{'padding': '20px'}}>
   						{row}
@@ -48,7 +48,7 @@ class Cameras extends Component{
   				row.push(
   					<div className="col" style={{'text-align': 'center'}}>
   						<h5>{tv.route} ({tv.latitude}, {tv.longitude})</h5>
-  						<img src={tv.image_url} style={{width:"320px", height:"260px"}}/>
+  						<img alt="cctv" src={tv.image_url} style={{width:"320px", height:"260px"}}/>
   					</div>
   				);
   			}

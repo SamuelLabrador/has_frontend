@@ -13,6 +13,8 @@ services:
         target: /frontend/src
     ports:
       - "3000:3000" 
+    env_file:
+      - dev-variables.env
 
 volumes:
   data:

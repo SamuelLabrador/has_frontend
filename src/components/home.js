@@ -3,9 +3,7 @@ import HomepageMap from './homepagemap.js';
 import NotificationWindow from './notificationwindow.js';
 
 class Home extends Component{
-	constructor(props){
-		super(props);
-	}
+	
 
 	render(){
 		return (
