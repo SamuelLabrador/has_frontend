@@ -6,9 +6,9 @@ addons:
     packages:
       - docker-ce
 
-cache:
-  directories:
-    - node_modules
+before_script:
+  - touch dev-variables.env
+  - echo REACT_APP_GOOGLE_MAP_KEY=null > dev-variables.env
 
 script:
   - docker-compose build 
