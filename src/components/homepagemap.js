@@ -32,26 +32,32 @@ class HomepageMap extends React.Component{
   }
 
   componentDidMount() {
-    var url = "http://highwayanalytics.us/api/cctv?format=json";
+    var url = "http://highwayanalytics.us/api/cctv?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
     .then(
     (result) => {
-      console.log(result);
-      this.setState({
-        cctvs: result,
-        error: false
-      });
+    	console.log(result);
+    	var list = [];
+    	for(var i = 0; i < result.length; i++){
+      		var cctv = result[i];
+      		if(cctv.image_url !== "Not Reported"){
+      			list.push(cctv);
+      		}
+      	}
+      	console.log(list);
+      	this.setState({
+	        cctvs: list,
+	        error: false
+	    });
     },
-      (error) => {
-          console.log("ERROR LOADING API!");
-          console.log(error);
-          this.setState({
-            ccvts: [],
+    (error) => {
+        console.log(error);
+        this.setState({
+        	ccvts: [],
             error: true
-          })
-        }
-    );
+        })
+    });
   }
 
   render(){
