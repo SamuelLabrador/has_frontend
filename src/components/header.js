@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import Login from './login.js';
 import Analytics from './analytics.js';
 import Cameras from './cameras.js';
-import Home from './home.js'
+import Home from './home.js';
+import NotificationSignUp from './notificationsignup.js';
 
 class Header extends Component{
 
@@ -21,9 +22,12 @@ class Header extends Component{
 					<li className="nav-item">
 						<Link className="nav-link" to="/cameras">Cameras</Link>
 					</li>
-					
+
 					<li className="nav-item">
 						<Link className="nav-link" to="/login">Login</Link>
+					</li>
+					<li className="nav-item">
+						<Link className="nav-link" to="/notification-signup">Sign Up For Notifications</Link>
 					</li>
 				</ul>
 				<Switch>
@@ -36,12 +40,15 @@ class Header extends Component{
 					<Route path="/analytics">
 						<Analytics/>
 					</Route>
+					<Route path="/notification-signup">
+						<NotificationSignUp/>
+					</Route>
 					<Route path="/">
 						<Home/>
 					</Route>
 				</Switch>
 			</div>
-			
+
 		);
 	}
 }

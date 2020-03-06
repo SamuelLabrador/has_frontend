@@ -16,7 +16,7 @@ class Marker extends React.Component{
 	render(){
 		return(
 			<img 
-				src={'camera_icon.png'} 
+				src={require('camera_icon.png')} 
 				alt="**HAS CAMERA ICON HERE**" 
 				style={{height: '40px'}}
 			/>
