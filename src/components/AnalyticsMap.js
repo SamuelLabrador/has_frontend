@@ -39,5 +39,5 @@ class AnalyticsMap extends Component{
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'INSERT API KEY HERE'
+  apiKey: process.env.REACT_APP_GOOGLE_MAP_KEY
 })(AnalyticsMap);

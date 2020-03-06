@@ -135,7 +135,7 @@ class HomepageMap extends React.Component{
     return(
       <div style={{ height: '80vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={"INSERT API KEY HERE"}
+          bootstrapURLKeys={{ key:process.env.REACT_APP_GOOGLE_MAP_KEY }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
           onChildClick={this._onChildClick}

@@ -23,25 +23,13 @@ class Header extends Component{
 						<Link className="nav-link" to="/cameras">Cameras</Link>
 					</li>
 
-					<li className="nav-item">
-						<Link className="nav-link" to="/login">Login</Link>
-					</li>
-					<li className="nav-item">
-						<Link className="nav-link" to="/notification-signup">Sign Up For Notifications</Link>
-					</li>
 				</ul>
 				<Switch>
-					<Route path="/login">
-						<Login/>
-					</Route>
 					<Route path="/cameras">
 						<Cameras/>
 					</Route>
 					<Route path="/analytics">
 						<Analytics/>
-					</Route>
-					<Route path="/notification-signup">
-						<NotificationSignUp/>
 					</Route>
 					<Route path="/">
 						<Home/>
