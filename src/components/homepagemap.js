@@ -178,7 +178,8 @@ class HomepageMap extends Component{
 
     if (this.state.showingInfoWindow !== false) {
       content.push(
-        <div className="row" style={{'padding': '30px'}}>
+        <div className="row" style={{'padding': '35px'}}>
+          <h2> Marker Information</h2>
           <img
               src = {this.state.selectedPlace.image_url}
               style={{
@@ -193,9 +194,8 @@ class HomepageMap extends Component{
       );        
     }else{
       content.push(
-        <div className="row" style={{'padding': '30px'}}>
-          <div>
-          </div>
+        <div className="row" style={{'padding': '35px'}}>
+          <h2> Marker Information</h2>
         </div>        
       );   
     }
