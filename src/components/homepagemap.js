@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Map, Marker, GoogleApiWrapper, InfoWindow} from 'google-maps-react';
+import {Map, Marker, GoogleApiWrapper, InfoWindow, Polyline} from 'google-maps-react';
 
 class HomepageMap extends Component{
   static defaultProps = {
@@ -152,6 +152,22 @@ class HomepageMap extends Component{
               <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
             </div>
           </InfoWindow>
+          {/* Add the Polyline component here */}
+          <Polyline
+            path={[
+              { lat: 33.622219, lng: -117.826751},
+              { lat: 33.61224, lng: -117.817046},
+              { lat: 33.603469, lng: -117.793286}
+            ]}
+            options={{
+            strokeColor: '#ff2527',
+            strokeOpacity: 0.75,
+            strokeWeight: 10,
+            icons: [{
+              offset: '0',
+              repeat: '10px'}],
+            }}
+          />
         </Map>
       </div>
     );

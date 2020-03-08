@@ -7,10 +7,11 @@ class NotificationWindow extends Component{
       //Holds list of notifications that are rendered on the screen
     }
   }
+  
   render(){
     return(
       <div className="Notification_Window">
-        Notification Window
+        Notification Window2
       </div>
     )
   }
