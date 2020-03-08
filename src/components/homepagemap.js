@@ -181,16 +181,16 @@ class HomepageMap extends Component{
         <div className="row" style={{'padding': '35px'}}>
           <h2> Marker Information</h2>
           <img
-              src = {this.state.selectedPlace.image_url}
-              style={{
-                width: '380px'
-              }}
+            src = {path}
+            style={{
+              width: '380px'
+            }}
           />
           <div>
             <span> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
             <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
-            <p>path : {path} </p>
           </div>
+          
         </div>        
       );        
     }else{
