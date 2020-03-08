@@ -136,22 +136,6 @@ class HomepageMap extends Component{
           onClick={this.onMapClicked}
         >
           {cctvs}
-          <InfoWindow
-            marker = {this.state.activeMarker}
-            onClose = {this.onInfoWindowClose}
-            visible = {this.state.showingInfoWindow}
-          >
-            <img
-              src = {this.state.selectedPlace.image_url}
-              style={{
-                width: '380px'
-              }}
-            />
-            <div>
-              <span> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
-              <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
-            </div>
-          </InfoWindow>
           {/* Add the Polyline component here */}
           <Polyline
             path={[
