@@ -67,7 +67,7 @@ class HomepageMap extends Component{
     this.setState({
       activeMarker: marker,
       selectedPlace: props,
-      showingInfoWindow: true
+      showingInfoWindow: true,
     })
     console.log(this.state.showingInfoWindow)
     //console.log(this.state.selectedPlace)
@@ -87,7 +87,7 @@ class HomepageMap extends Component{
     //   activeMarker: null,
     //   showingInfoWindow: false
     // })
-    //console.log(this.state.showingInfoWindow)
+    // console.log(this.state.showingInfoWindow)
   };
     
   onInfoWindowClose = () =>
@@ -100,14 +100,14 @@ class HomepageMap extends Component{
     if (this.state.showingInfoWindow){
       this.setState({
         activeMarker: null,
-        showingInfoWindow: false
+        showingInfoWindow: false,
+        showingInfoWindow2: false
       })
       console.log(this.state.showingInfoWindow)
     }   
   };
 
-  render(){
-
+  renderMap(){
     var icon_image = process.env.PUBLIC_URL + '/camera_icon2.png';
 
     var cctvs = this.state.cctvs.map(
@@ -125,8 +125,8 @@ class HomepageMap extends Component{
           route = {d.route}
         />
     );
-
-    return(
+    
+    return (
       <div style={{ height: '92vh', width: '100%' }}>
         <Map
           google={this.props.google}
@@ -148,12 +148,56 @@ class HomepageMap extends Component{
               }}
             />
             <div>
-              <span>Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
-              <p>Route : {this.state.selectedPlace.route}</p>
+              <span> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
+              <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
             </div>
           </InfoWindow>
-          
         </Map>
+      </div>
+    );
+  }
+
+  renderTable(){
+    var content = []
+
+    if (this.state.showingInfoWindow !== false) {
+      content.push(
+        <div className="row" style={{'padding': '30px'}}>
+          <img
+              src = {this.state.selectedPlace.image_url}
+              style={{
+                width: '380px'
+              }}
+          />
+          <div>
+            <span> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
+            <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
+          </div>
+        </div>        
+      );        
+    }else{
+      content.push(
+        <div className="row" style={{'padding': '30px'}}>
+          <div>
+          </div>
+        </div>        
+      );   
+    }
+    return content;
+  }
+
+  render(){
+    var map = this.renderMap();
+    var table = this.renderTable();
+
+    return(
+      <div className="row">
+        <div className="col-9">
+          {map}
+        </div>
+        <div className="col-3">
+          {table}
+        </div>
       </div>
     );
   }

@@ -9,14 +9,15 @@ class Home extends Component{
 		return (
 			<div>
 				<div className="container-fluid">
-			        <div className="row">
+					<HomepageMap/>
+			        {/* <div className="row">
 						<div className="col-9">
 							<HomepageMap/>
 						</div>
 						<div className="col-3">
 							<NotificationWindow/>
 						</div>
-					</div>
+					</div> */}
 			    </div>
 			</div>			
 		);
