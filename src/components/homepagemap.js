@@ -31,6 +31,7 @@ class HomepageMap extends Component{
       showingInfoWindow : false,
       selectedPlace: {},
       activeMarker: {},
+      image_path : [],
     };
   }
 
@@ -61,16 +62,29 @@ class HomepageMap extends Component{
             error: true
         })
     });
+
+
   }
 
   onMarkerClick = (props, marker) => {
-    this.setState({
-      activeMarker: marker,
-      selectedPlace: props,
-      showingInfoWindow: true,
-    })
-    console.log(this.state.showingInfoWindow)
-    //console.log(this.state.selectedPlace)
+    var latest_image = "http://highwayanalytics.us/api/search/?search=" + props.name;
+    var path = [];
+
+    fetch(latest_image)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          //console.log(result.results[0].file_name)
+          path.push(result.results[0].file_name)
+          
+          this.setState({
+            activeMarker: marker,
+            selectedPlace: props,
+            showingInfoWindow: true,
+            image_path : path,
+          });
+        }
+      )
   };
 
   onMouseoverMarker= (props, marker, e) => {
@@ -101,7 +115,7 @@ class HomepageMap extends Component{
       this.setState({
         activeMarker: null,
         showingInfoWindow: false,
-        showingInfoWindow2: false
+        image_path: null,
       })
       console.log(this.state.showingInfoWindow)
     }   
@@ -160,6 +174,8 @@ class HomepageMap extends Component{
   renderTable(){
     var content = []
 
+    var path = "http://highwayanalytics.us/image/" + this.state.image_path;
+
     if (this.state.showingInfoWindow !== false) {
       content.push(
         <div className="row" style={{'padding': '35px'}}>
@@ -173,6 +189,7 @@ class HomepageMap extends Component{
           <div>
             <span> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
             <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
+            <p>path : {path} </p>
           </div>
         </div>        
       );        
