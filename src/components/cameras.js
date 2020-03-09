@@ -16,9 +16,18 @@ class Cameras extends Component{
 	    .then(res => res.json())
 	    .then(
 	    (result) => {
-			console.log('Camera loaded API');
+			var list = []
+			for(var i = 0; i < result.length; i++){
+				var tv = result[i];
+
+				if(tv.image_url.includes('/d8/')){
+					list.push(tv);
+				}
+			}
+
+
 			this.setState({
-				cctvs: result,
+				cctvs: list,
 				error: false
 			});
 	    },
