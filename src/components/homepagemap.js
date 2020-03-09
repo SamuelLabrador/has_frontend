@@ -37,6 +37,11 @@ class HomepageMap extends Component{
   }
 
   componentDidMount() {
+    //Used for updating congestion lines
+    this.intervalID = setInterval(
+      ()=> this.update_congestion_lines(),
+      60000
+    );
     var url = "http://highwayanalytics.us/api/cctv?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
@@ -67,7 +72,6 @@ class HomepageMap extends Component{
     .then(res => res.json())
     .then(
     (result) => {
-      console.log(result);
       var list = [];
       for(var key in result){
         if(result.hasOwnProperty(key)){
@@ -126,6 +130,7 @@ class HomepageMap extends Component{
                 }
                 var object = {
                     "cctv": val[i],
+                    "cctv_id":val[i].cctv_id,
                     "prev_cctv": prev_cctv,
                     "next_cctv": next_cctv,
                     "prev_lat_midpoint": prev_lat_midpoint,
@@ -219,10 +224,17 @@ class HomepageMap extends Component{
             error: true
         })
     });
-
-
   }
 
+  componentWillUnmount(){
+    clearInterval(this.intervalID);
+  }
+  update_congestion_lines(){
+    //Update Congestions Lines
+    this.setState({
+    //Set Congestion Lines
+    })
+  }
   onMarkerClick = (props, marker) => {
     var latest_image = "http://highwayanalytics.us/api/search/?search=" + props.name;
     var path = [];
