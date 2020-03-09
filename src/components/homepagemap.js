@@ -19,6 +19,7 @@ class HomepageMap extends Component{
     this.state = {
       error: null,
       cctvs: [],
+      cctv_objects: [],
       center: {
         lat: 33.980530,
         lng: -117.377020
@@ -40,15 +41,13 @@ class HomepageMap extends Component{
     .then(res => res.json())
     .then(
     (result) => {
-    	//console.log(result);
     	var list = [];
     	for(var i = 0; i < result.length; i++){
       		var cctv = result[i];
       		if(cctv.image_url !== "Not Reported"){
-      			list.push(cctv);
+            list.push(cctv);
       		}
       	}
-      	//console.log(list);
       	this.setState({
 	        cctvs: list,
 	        error: false
@@ -57,7 +56,165 @@ class HomepageMap extends Component{
     (error) => {
         //console.log(error);
         this.setState({
-        	ccvts: [],
+        	cctvs: [],
+            error: true
+        })
+    });
+
+    url = "http://highwayanalytics.us/api/graph?format=json&county=Riverside,San+Bernardino";
+    fetch(url)
+    .then(res => res.json())
+    .then(
+    (result) => {
+      console.log(result);
+      var list = [];
+      for(var key in result){
+        if(result.hasOwnProperty(key)){
+          var val = result[key];
+          var i = 0;
+          if(key === "SR-60" || key === "I-10" || key === "SR-91" || key === "I-210"){
+            for(i=0;i < val.length;i++){
+              var prev_cctv = null;
+              if(i!== 0){
+                prev_cctv=val[i-1];
+              }
+              var next_cctv = null;
+              if(i !== (val.length-1)){
+                next_cctv = val[i+1];
+                //Calc distance
+                var prev_lat_midpoint = null;
+                var prev_long_midpoint = null;
+                var next_lat_midpoint = null;
+                var next_long_midpoint = null;
+                var temp = null;
+                if(prev_cctv !== null){
+                  if(prev_cctv.latitude > val[i].latitude){
+                      temp = Math.abs(prev_cctv.latitude-val[i].latitude)/2;
+                      prev_lat_midpoint = val[i].latitude + temp;
+                  }
+                  else{
+                      temp = Math.abs(prev_cctv.latitude-val[i].latitude)/2;
+                      prev_lat_midpoint = val[i].latitude - temp;
+                  }
+                  if(prev_cctv.longitude > val[i].longitude){
+                     temp = Math.abs(prev_cctv.longitude-val[i].longitude)/2;
+                     prev_long_midpoint = val[i].longitude + temp;
+                  }
+                  else{
+                     temp = Math.abs(prev_cctv.longitude-val[i].longitude)/2;
+                     prev_long_midpoint = val[i].longitude - temp;
+                  }
+                }
+                if(next_cctv !== null){
+                  if(next_cctv.latitude > val[i].latitude){
+                    temp = Math.abs(next_cctv.latitude-val[i].latitude)/2;
+                    next_lat_midpoint = val[i].latitude + temp;
+                  }
+                  else{
+                    temp = Math.abs(next_cctv.latitude-val[i].latitude)/2;
+                    next_lat_midpoint = val[i].latitude - temp;
+                  }
+                  if(next_cctv.longitude > val[i].longitude){
+                    temp = Math.abs(next_cctv.longitude-val[i].longitude)/2;
+                    next_long_midpoint = val[i].longitude + temp;
+                  }
+                  else{
+                    temp = Math.abs(next_cctv.longitude-val[i].longitude)/2;
+                    next_long_midpoint = val[i].longitude - temp;
+                  }
+                }
+                var object = {
+                    "cctv": val[i],
+                    "prev_cctv": prev_cctv,
+                    "next_cctv": next_cctv,
+                    "prev_lat_midpoint": prev_lat_midpoint,
+                    "prev_long_midpoint": prev_long_midpoint,
+                    "next_lat_midpoint": next_lat_midpoint,
+                    "next_long_midpoint": next_long_midpoint
+                }
+                list.push(object);
+              }
+            }
+          }
+          else if( key === "I-15" || key === "I-215"){
+            for(i=0;i < val.length;i++){
+              var prev_cctv = null;
+              if(i!== 0){
+                prev_cctv=val[i-1];
+              }
+              var next_cctv = null;
+              if(i !== (val.length-1)){
+                next_cctv = val[i+1];
+                //Calc distance
+                var prev_lat_midpoint = null;
+                var prev_long_midpoint = null;
+                var next_lat_midpoint = null;
+                var next_long_midpoint = null;
+                var temp = null;
+                if(prev_cctv !== null){
+                  if(prev_cctv.latitude > val[i].latitude){
+                      temp = Math.abs(prev_cctv.latitude-val[i].latitude)/2;
+                      prev_lat_midpoint = val[i].latitude + temp;
+                  }
+                  else{
+                      temp = Math.abs(prev_cctv.latitude-val[i].latitude)/2;
+                      prev_lat_midpoint = val[i].latitude - temp;
+                  }
+                  if(prev_cctv.longitude > val[i].longitude){
+                     temp = Math.abs(prev_cctv.longitude-val[i].longitude)/2;
+                     prev_long_midpoint = val[i].longitude + temp;
+                  }
+                  else{
+                     temp = Math.abs(prev_cctv.longitude-val[i].longitude)/2;
+                     prev_long_midpoint = val[i].longitude - temp;
+                  }
+                }
+                if(next_cctv !== null){
+                  if(next_cctv.latitude > val[i].latitude){
+                    temp = Math.abs(next_cctv.latitude-val[i].latitude)/2;
+                    next_lat_midpoint = val[i].latitude + temp;
+                  }
+                  else{
+                    temp = Math.abs(next_cctv.latitude-val[i].latitude)/2;
+                    next_lat_midpoint = val[i].latitude - temp;
+                  }
+                  if(next_cctv.longitude > val[i].longitude){
+                    temp = Math.abs(next_cctv.longitude-val[i].longitude)/2;
+                    next_long_midpoint = val[i].longitude + temp;
+                  }
+                  else{
+                    temp = Math.abs(next_cctv.longitude-val[i].longitude)/2;
+                    next_long_midpoint = val[i].longitude - temp;
+                  }
+                }
+                var object = {
+                    "cctv": val[i],
+                    "prev_cctv": prev_cctv,
+                    "next_cctv": next_cctv,
+                    "prev_lat_midpoint": prev_lat_midpoint,
+                    "prev_long_midpoint": prev_long_midpoint,
+                    "next_lat_midpoint": next_lat_midpoint,
+                    "next_long_midpoint": next_long_midpoint
+                }
+                list.push(object);
+              }
+            }
+          }
+          else{
+            continue;
+          }
+        }
+      }
+        console.log(list);
+        this.setState({
+          cctv_objects: list,
+          error: false
+      });
+    },
+    (error) => {
+        //console.log(error);
+        this.setState({
+          cctvs: [],
             error: true
         })
     });
@@ -89,7 +246,7 @@ class HomepageMap extends Component{
     // })
     // console.log(this.state.showingInfoWindow)
   };
-    
+
   onInfoWindowClose = () =>
     this.setState({
       activeMarker: null,
@@ -104,7 +261,7 @@ class HomepageMap extends Component{
         showingInfoWindow2: false
       })
       console.log(this.state.showingInfoWindow)
-    }   
+    }
   };
 
   renderMap(){
@@ -125,7 +282,44 @@ class HomepageMap extends Component{
           route = {d.route}
         />
     );
-    
+    var prev_congestion_lines = this.state.cctv_objects.map(
+      (object)=>(
+        //prev_polyline
+            <Polyline
+              path={[
+                { lat: object.prev_lat_midpoint, lng: object.prev_long_midpoint},
+                { lat: object.cctv.latitude, lng: object.cctv.longitude},
+              ]}
+              options={{
+              strokeColor: 'red',
+              strokeOpacity: 0.75,
+              strokeWeight: 10,
+              icons: [{
+                offset: '0',
+                repeat: '10px'}],
+              }}
+            />
+      )
+    );
+    var next_congestion_lines = this.state.cctv_objects.map(
+      (object)=>(
+        //prev_polyline
+            <Polyline
+              path={[
+                { lat: object.cctv.latitude, lng: object.cctv.longitude},
+                { lat: object.next_lat_midpoint, lng: object.next_long_midpoint},
+              ]}
+              options={{
+              strokeColor: 'green',
+              strokeOpacity: 0.75,
+              strokeWeight: 10,
+              icons: [{
+                offset: '0',
+                repeat: '10px'}],
+              }}
+            />
+      )
+    );
     return (
       <div style={{ height: '92vh', width: '100%' }}>
         <Map
@@ -136,22 +330,8 @@ class HomepageMap extends Component{
           onClick={this.onMapClicked}
         >
           {cctvs}
-          {/* Add the Polyline component here */}
-          <Polyline
-            path={[
-              { lat: 33.622219, lng: -117.826751},
-              { lat: 33.61224, lng: -117.817046},
-              { lat: 33.603469, lng: -117.793286}
-            ]}
-            options={{
-            strokeColor: '#ff2527',
-            strokeOpacity: 0.75,
-            strokeWeight: 10,
-            icons: [{
-              offset: '0',
-              repeat: '10px'}],
-            }}
-          />
+          {prev_congestion_lines}
+          {next_congestion_lines}
         </Map>
       </div>
     );
@@ -174,14 +354,14 @@ class HomepageMap extends Component{
             <span> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
             <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
           </div>
-        </div>        
-      );        
+        </div>
+      );
     }else{
       content.push(
         <div className="row" style={{'padding': '35px'}}>
           <h2> Marker Information</h2>
-        </div>        
-      );   
+        </div>
+      );
     }
     return content;
   }
