@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Map, Marker, GoogleApiWrapper, InfoWindow, Polyline} from 'google-maps-react';
+import {Map, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
+import VehicleCounter from './vehicleCounter.js'
 
 class HomepageMap extends Component{
   static defaultProps = {
@@ -77,21 +78,29 @@ class HomepageMap extends Component{
         if(result.hasOwnProperty(key)){
           var val = result[key];
           var i = 0;
+          var prev_cctv = null;
+          var next_cctv = null;
+          var prev_lat_midpoint = null;
+          var prev_long_midpoint = null;
+          var next_lat_midpoint = null;
+          var next_long_midpoint = null;
+          var temp = null;
+          var object = null;
           if(key === "SR-60" || key === "I-10" || key === "SR-91" || key === "I-210"){
             for(i=0;i < val.length;i++){
-              var prev_cctv = null;
+              prev_cctv = null;
               if(i!== 0){
                 prev_cctv=val[i-1];
               }
-              var next_cctv = null;
+              next_cctv = null;
               if(i !== (val.length-1)){
                 next_cctv = val[i+1];
                 //Calc distance
-                var prev_lat_midpoint = null;
-                var prev_long_midpoint = null;
-                var next_lat_midpoint = null;
-                var next_long_midpoint = null;
-                var temp = null;
+                prev_lat_midpoint = null;
+                prev_long_midpoint = null;
+                next_lat_midpoint = null;
+                next_long_midpoint = null;
+                temp = null;
                 if(prev_cctv !== null){
                   if(prev_cctv.latitude > val[i].latitude){
                       temp = Math.abs(prev_cctv.latitude-val[i].latitude)/2;
@@ -128,7 +137,7 @@ class HomepageMap extends Component{
                     next_long_midpoint = val[i].longitude - temp;
                   }
                 }
-                var object = {
+                object = {
                     "cctv": val[i],
                     "cctv_id":val[i].cctv_id,
                     "prev_cctv": prev_cctv,
@@ -144,19 +153,19 @@ class HomepageMap extends Component{
           }
           else if( key === "I-15" || key === "I-215"){
             for(i=0;i < val.length;i++){
-              var prev_cctv = null;
+              prev_cctv = null;
               if(i!== 0){
                 prev_cctv=val[i-1];
               }
-              var next_cctv = null;
+              next_cctv = null;
               if(i !== (val.length-1)){
                 next_cctv = val[i+1];
                 //Calc distance
-                var prev_lat_midpoint = null;
-                var prev_long_midpoint = null;
-                var next_lat_midpoint = null;
-                var next_long_midpoint = null;
-                var temp = null;
+                prev_lat_midpoint = null;
+                prev_long_midpoint = null;
+                next_lat_midpoint = null;
+                next_long_midpoint = null;
+                temp = null;
                 if(prev_cctv !== null){
                   if(prev_cctv.latitude > val[i].latitude){
                       temp = Math.abs(prev_cctv.latitude-val[i].latitude)/2;
@@ -193,7 +202,7 @@ class HomepageMap extends Component{
                     next_long_midpoint = val[i].longitude - temp;
                   }
                 }
-                var object = {
+                object = {
                     "cctv": val[i],
                     "prev_cctv": prev_cctv,
                     "next_cctv": next_cctv,
@@ -374,6 +383,7 @@ class HomepageMap extends Component{
           <h2> Marker Information</h2>
           <img
             src = {path}
+            alt="MAKER GOES HERE"
             style={{
               width: '380px'
             }}
@@ -399,12 +409,19 @@ class HomepageMap extends Component{
     var table = this.renderTable();
 
     return(
-      <div className="row">
-        <div className="col-9">
-          {map}
+      <div>
+        <div className="row" style={{"padding": "10px"}}>
+          <div className="container-fluid">
+            <VehicleCounter/>
+          </div>
         </div>
-        <div className="col-3">
-          {table}
+        <div className="row">
+          <div className="col-9">
+            {map}
+          </div>
+          <div className="col-3">
+            {table}
+          </div>
         </div>
       </div>
     );

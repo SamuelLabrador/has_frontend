@@ -1,10 +1,10 @@
 import {Route, Switch, Link} from "react-router-dom";
 import React, {Component} from 'react';
-import Login from './login.js';
+// import Login from './login.js';
 import Analytics from './analytics.js';
 import Cameras from './cameras.js';
 import Home from './home.js';
-import NotificationSignUp from './notificationsignup.js';
+// import NotificationSignUp from './notificationsignup.js';
 
 class Header extends Component{
 
