@@ -34,7 +34,7 @@ class VechicleCounter extends Component{
 	render(){
 		return(
 			<div>
-				<FlipNumbers height={24} width={24} color="black" play perspective={100} numbers={this.state.count.toString()}/>
+				Vehicles Found: <FlipNumbers  height={24} width={24} color="black" play numbers={this.state.count.toString()}/>
 			</div>
 		)
 	}
