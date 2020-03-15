@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, RadialChart, DiscreteColorLegend, Hint} from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
+import {curveCatmullRom} from 'd3-shape';
 
 class AnalyticsGraph extends Component{
   
@@ -15,8 +16,8 @@ class AnalyticsGraph extends Component{
 
   getrouteCount(){
     var url = 'http://highwayanalytics.us/api/routeVehicleCount';
-    var url2 = 'http://localhost:8000/api/routeVehicleCount';
-    fetch(url2)
+    //var url2 = 'http://localhost:8000/api/routeVehicleCount';
+    fetch(url)
     .then(res => res.json())
     .then(
         (result) => {
@@ -30,10 +31,11 @@ class AnalyticsGraph extends Component{
     }); 
   }
 
+
   componentDidMount() {
     setInterval(async () => {
       this.getrouteCount()
-      this.getCount()
+      //this.getCount()
 		}, 900000);
   }
 
@@ -212,12 +214,12 @@ class AnalyticsGraph extends Component{
             <LineSeries
               className="first-series"
               data = {data}
-              style={{
-                strokeLinejoin: 'round',
-                strokeWidth: 4
-              }}
+              curve={curveCatmullRom.alpha(0.5)}
             />
           </XYPlot>
+          <button className="click-me" onClick={this._updateButtonClicked}>
+            Route
+          </button>
         </div>
         <div className="row">
           <div style={{ marginLeft : '40px'}}>
