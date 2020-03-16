@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, RadialChart, DiscreteColorLegend, Hint, Crosshair} from 'react-vis';
+import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, RadialChart, DiscreteColorLegend, Hint} from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
 import {curveCatmullRom} from 'd3-shape';
 
@@ -165,7 +165,6 @@ class AnalyticsGraph extends Component{
     for(i = 0; i < 24; i++ ){
       if (this.state.series && this.state.series.length){
         data.push({ x : i, y : series[activeRoute].data[i] })
-        console.log(series[activeRoute].title)
       }
     }
 
@@ -216,6 +215,15 @@ class AnalyticsGraph extends Component{
           {top5}
         </div>
         <div className="col-8">
+          <section>
+            <div className="section=header">
+              <h3 
+                className="section-title"
+              >
+                { this.state.series && this.state.series.length ? series[activeRoute].title : null }
+              </h3>
+            </div>
+          </section>
           <XYPlot width={600} height={350}>
             <HorizontalGridLines style={{stroke: '#B7E9ED'}} />
             <VerticalGridLines style={{stroke: '#B7E9ED'}} />
