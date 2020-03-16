@@ -34,14 +34,11 @@ class HomepageMap extends Component{
       activeMarker: {},
       image_path : [],
     };
+    this.update_congestion_lines = this.update_congestion_lines.bind(this);
+    this.grabColor = this.grabColor.bind(this);
   }
 
   componentDidMount() {
-    //Used for updating congestion lines
-    this.intervalID = setInterval(
-      ()=> this.update_congestion_lines(),
-      60000
-    );
     var url = "http://highwayanalytics.us/api/cctv?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
@@ -136,7 +133,8 @@ class HomepageMap extends Component{
                     "prev_lat_midpoint": prev_lat_midpoint,
                     "prev_long_midpoint": prev_long_midpoint,
                     "next_lat_midpoint": next_lat_midpoint,
-                    "next_long_midpoint": next_long_midpoint
+                    "next_long_midpoint": next_long_midpoint,
+                    "car_count": null
                 }
                 list.push(object);
               }
@@ -193,14 +191,16 @@ class HomepageMap extends Component{
                     next_long_midpoint = val[i].longitude - temp;
                   }
                 }
-                var object = {
+                object = {
                     "cctv": val[i],
+                    "cctv_id": val[i].cctv_id,
                     "prev_cctv": prev_cctv,
                     "next_cctv": next_cctv,
                     "prev_lat_midpoint": prev_lat_midpoint,
                     "prev_long_midpoint": prev_long_midpoint,
                     "next_lat_midpoint": next_lat_midpoint,
-                    "next_long_midpoint": next_long_midpoint
+                    "next_long_midpoint": next_long_midpoint,
+                    "car_count": null
                 }
                 list.push(object);
               }
@@ -211,7 +211,6 @@ class HomepageMap extends Component{
           }
         }
       }
-        console.log(list);
         this.setState({
           cctv_objects: list,
           error: false
@@ -224,6 +223,12 @@ class HomepageMap extends Component{
             error: true
         })
     });
+  //Used for updating congestion lines, every 10 seconds
+    this.intervalID = setInterval(
+      ()=> this.update_congestion_lines(),
+      10000
+    );
+
   }
 
   componentWillUnmount(){
@@ -231,9 +236,58 @@ class HomepageMap extends Component{
   }
   update_congestion_lines(){
     //Update Congestions Lines
+    var cctv_objects_dup = Array.from(this.state.cctv_objects);
+    //Go through all cameras
+    for(var i = 0; i < cctv_objects_dup.length;i++){
+      var target_url = "http://highwayanalytics.us/api/vehicle/?cctv="+cctv_objects_dup[i].cctv_id+"&format=json";
+      var target_photo_id = null;
+      if(cctv_objects_dup[i].cctv_id !== undefined){
+        fetch(target_url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              if(result !== undefined){
+                if(result.results !== undefined){
+                  if(result.results[0] !== undefined){
+                    //Find most recent photo id on specific camera
+                    target_photo_id = result.results[0].photo;
+                    target_url = "http://highwayanalytics.us/api/vehicle/?photo="+target_photo_id+"&format=json";
+                    fetch(target_url)
+                    .then( res => res.json())
+                    .then(
+                      (result) => {
+                        //assign that camera the result of photo count
+                          for(let index = 0; index < cctv_objects_dup.length; index++){
+                            if(cctv_objects_dup[index] === undefined){
+                              console.log("undefined");
+                              continue;
+                            }
+                            if(cctv_objects_dup[index].cctv_id === result.results[0].cctv){
+                              cctv_objects_dup[index].car_count = result.count;
+                              break;
+                            }
+                          }
+                      },
+                      (error) =>{
+                        console.log("Error with using target_photo_id");
+                      } 
+                    ); 
+                  }
+                }
+              }
+            },
+            (error) => {
+              console.log("Error updating Congestion");
+            }
+          );
+      }
+    }
+    //update cctv objects with new car counts
     this.setState({
-    //Set Congestion Lines
-    })
+      cctv_objects: cctv_objects_dup
+    });
+    //console.log("Lines Done Updating",this.state.cctv_objects[0].car_count);
+    //console.log("here is cctv_objects",this.state.cctv_objects);
   }
   onMarkerClick = (props, marker) => {
     var latest_image = "http://highwayanalytics.us/api/search/?search=" + props.name;
@@ -289,7 +343,16 @@ class HomepageMap extends Component{
       console.log(this.state.showingInfoWindow)
     }
   };
-
+  
+  grabColor = (car_count) =>{
+    console.log("Car Count", car_count);
+    if(car_count === null){
+      return 'green';
+    }
+    else{
+      return 'red';
+    }
+  }
   renderMap(){
     var icon_image = process.env.PUBLIC_URL + '/camera_icon2.png';
 
@@ -311,13 +374,14 @@ class HomepageMap extends Component{
     var prev_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
         //prev_polyline
-            <Polyline
+            <Polyline 
+              key= {object.cctv.latitude.toString() + object.cctv.longitude.toString()}
               path={[
                 { lat: object.prev_lat_midpoint, lng: object.prev_long_midpoint},
                 { lat: object.cctv.latitude, lng: object.cctv.longitude},
               ]}
               options={{
-              strokeColor: 'red',
+              strokeColor: this.grabColor(object.car_count),
               strokeOpacity: 0.75,
               strokeWeight: 10,
               icons: [{
@@ -336,7 +400,7 @@ class HomepageMap extends Component{
                 { lat: object.next_lat_midpoint, lng: object.next_long_midpoint},
               ]}
               options={{
-              strokeColor: 'green',
+              strokeColor: this.grabColor(object.car_count),
               strokeOpacity: 0.75,
               strokeWeight: 10,
               icons: [{
@@ -397,7 +461,6 @@ class HomepageMap extends Component{
   render(){
     var map = this.renderMap();
     var table = this.renderTable();
-
     return(
       <div className="row">
         <div className="col-9">
