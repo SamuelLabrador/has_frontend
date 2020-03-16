@@ -8,22 +8,23 @@ class AnalyticsGraph extends Component{
   constructor(props){
     super(props);
     this.state = {
-      routeVehicleCount : [],
-      value : false
+      routeVehicle : [],
+      value : false,
+      series : [],
+      activeRoute : 0
     };
     this.getrouteCount()
   }
 
   getrouteCount(){
     var url = 'http://highwayanalytics.us/api/routeVehicleCount';
-    //var url2 = 'http://localhost:8000/api/routeVehicleCount';
     fetch(url)
     .then(res => res.json())
     .then(
         (result) => {
           console.log(result)
           this.setState({
-            routeVehicleCount : result,
+            routeVehicle : result,
           });
         },
         (error) => {
@@ -31,16 +32,41 @@ class AnalyticsGraph extends Component{
     }); 
   }
 
+  getrouteCount_2(){
+    var url = 'http://highwayanalytics.us/api/vehiclesPerHour';
+    fetch(url)
+    .then(res => res.json())
+    .then(
+        (result) => {
+          var routes = []
+
+          for(var route in result){
+            routes.push({
+              title : route,
+              //disabled : true,
+              data : result[route]
+            })           
+          }
+          
+          this.setState({
+            series : routes,
+          });
+        },
+        (error) => {
+            console.log("ERROR FETCHING VEHICLE PER HOUR API");
+    }); 
+  }
 
   componentDidMount() {
+    this.getrouteCount_2()
     setInterval(async () => {
-      this.getrouteCount()
-      //this.getCount()
-		}, 900000);
+      //this.getrouteCount_2();
+      this.getrouteCount();
+    }, 900000);
   }
 
   renderTable(){
-    var orderedrouteVehicle = this.state.routeVehicleCount;
+    var orderedrouteVehicle = this.state.routeVehicle;
     var sortable = [];
     var route = []
     var count = []
@@ -100,58 +126,41 @@ class AnalyticsGraph extends Component{
     );
   }
 
+  _updateButtonClicked(){
+    var count = this.state.activeRoute
+    count += 1;
+
+    if(count > 7){
+      count = 0;
+    }
+   
+    this.setState({
+      activeRoute : count
+    })
+  }
+
 	render(){
     const {value} = this.state;
-
     var top5 = this.renderTable();
 
-    var routeVehicle = this.state.routeVehicleCount;
-    //var data = [];
-    
-    // for(var i = 23; i >= 0; i--){
-    //   data.push({ x: i, y : routeVehicle["I-15"] - 100*i})
-    // }
+    var series = this.state.series;
+    var activeRoute = this.state.activeRoute;
 
-    var data = [
-      { x : 0, y : routeVehicle["I-15"] - 80},
-      { x : 1, y : routeVehicle["I-15"] - 40},
-      { x : 2, y : routeVehicle["I-15"] - 70},
-      { x : 3, y : routeVehicle["I-15"]- 30},
-      { x : 4, y : routeVehicle["I-15"] - 50},
-      { x : 5, y : routeVehicle["I-15"] - 22},
-      { x : 6, y : routeVehicle["I-15"] - 15},
-      { x : 7, y : routeVehicle["I-15"] - 60},
-      { x : 8, y : routeVehicle["I-15"] - 234},
-      { x : 9, y : routeVehicle["I-15"] - 310},
-      { x : 10, y : routeVehicle["I-15"] - 159},
-      { x : 11, y : routeVehicle["I-15"] - 400},
-      { x : 12, y : routeVehicle["I-15"] - 310},
-      { x : 13, y : routeVehicle["I-15"] - 445},
-      { x : 14, y : routeVehicle["I-15"] - 320},
-      { x : 15, y : routeVehicle["I-15"] - 399},
-      { x : 16, y : routeVehicle["I-15"] - 467},
-      { x : 17, y : routeVehicle["I-15"]- 431},
-      { x : 18, y : routeVehicle["I-15"] -212},
-      { x : 19, y : routeVehicle["I-15"] - 193},
-      { x : 20, y : routeVehicle["I-15"]- 99},
-      { x : 21, y : routeVehicle["I-15"]- 142},
-      { x : 22, y : routeVehicle["I-15"]- 210},
-      { x : 23, y : routeVehicle["I-15"] - 321},
-      { x : 24, y : routeVehicle["I-15"] - 219},
+    console.log(series)
 
-    ];
-
-    console.log(data)
-
-    var vehicles = 0
-    var radialData = []
-
-    for(var route in routeVehicle){
-      vehicles += routeVehicle[route];
+    var routeVehicle = this.state.routeVehicle;
+    var data = []
+  
+    var i;
+    for(i = 0; i < 24; i++ ){
+      if (this.state.series && this.state.series.length){
+        data.push({ x : i, y : series[activeRoute].data[i] })
+        console.log(series[activeRoute].title)
+      }
     }
 
+    var radialData = []
     const items = []
-
     const color = [
       '#19CDD7',
       '#DDB27C',
@@ -175,13 +184,11 @@ class AnalyticsGraph extends Component{
       '#89DAC1',
       '#B3AD9E'
     ];
-    
     var col = 0;
 
     for(var routes in routeVehicle){
       radialData.push({
         count : routeVehicle[routes],  
-        // angle : ( (routeVehicle[routes]/vehicles) * 360 ),
         label : routes,
         color : color[col]
       })
@@ -212,12 +219,12 @@ class AnalyticsGraph extends Component{
             />
             <YAxis title="Vehicles" />
             <LineSeries
-              className="first-series"
+              className="series"
               data = {data}
               curve={curveCatmullRom.alpha(0.5)}
             />
           </XYPlot>
-          <button className="click-me" onClick={this._updateButtonClicked}>
+          <button className="click-me" onClick={() => {this._updateButtonClicked()}} style={{ marginLeft : '250px'}}>
             Route
           </button>
         </div>
