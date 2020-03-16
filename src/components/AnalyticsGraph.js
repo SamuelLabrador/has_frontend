@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, RadialChart, DiscreteColorLegend, Hint} from 'react-vis';
+import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, RadialChart, DiscreteColorLegend, Hint, Crosshair} from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
 import {curveCatmullRom} from 'd3-shape';
 
@@ -97,29 +97,39 @@ class AnalyticsGraph extends Component{
               </tr>
           </thead>
           <tbody>
-            <td>1</td>
-            <td>{route[0]}</td>
-            <td>{count[0]}</td>
+            <tr>
+              <td>1</td>
+              <td>{route[0]}</td>
+              <td>{count[0]}</td>
+            </tr>
           </tbody>
           <tbody>
-            <td>2</td>
-            <td>{route[1]}</td>
-            <td>{count[1]}</td>
+            <tr>
+              <td>2</td>
+              <td>{route[1]}</td>
+              <td>{count[1]}</td>
+            </tr>
           </tbody>
           <tbody>
-            <td>3</td>
-            <td>{route[2]}</td>
-            <td>{count[2]}</td>
+            <tr>
+              <td>3</td>
+              <td>{route[2]}</td>
+              <td>{count[2]}</td>
+            </tr>
           </tbody>
           <tbody>
-            <td>4</td>
-            <td>{route[3]}</td>
-            <td>{count[3]}</td>
+            <tr>
+              <td>4</td>
+              <td>{route[3]}</td>
+              <td>{count[3]}</td>
+            </tr>
           </tbody>
           <tbody>
-            <td>5</td>
-            <td>{route[4]}</td>
-            <td>{count[4]}</td>
+            <tr>
+              <td>5</td>
+              <td>{route[4]}</td>
+              <td>{count[4]}</td>
+            </tr>
           </tbody>
         </table>
       </div>
