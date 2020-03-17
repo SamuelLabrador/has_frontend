@@ -242,7 +242,7 @@ class HomepageMap extends Component{
     );
     this.timeoutID = setTimeout(()=>{
       this.update_congestion_lines();
-    }, 200);
+    }, 1000);
   }
 
   componentWillUnmount(){
