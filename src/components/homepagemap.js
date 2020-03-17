@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
 import VehicleCounter from './vehicleCounter.js'
 
+// class renderMap extends Component{
+//   render(){
+//     return(
+//
+//
+//     );
+//   }
+// }
+
+var count = 0
+
 class HomepageMap extends Component{
   static defaultProps = {
     center: {
@@ -35,14 +46,11 @@ class HomepageMap extends Component{
       activeMarker: {},
       image_path : [],
     };
+    this.update_congestion_lines = this.update_congestion_lines.bind(this);
+    this.grabColor = this.grabColor.bind(this);
   }
 
   componentDidMount() {
-    //Used for updating congestion lines
-    this.intervalID = setInterval(
-      ()=> this.update_congestion_lines(),
-      60000
-    );
     var url = "http://highwayanalytics.us/api/cctv?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
@@ -145,7 +153,8 @@ class HomepageMap extends Component{
                     "prev_lat_midpoint": prev_lat_midpoint,
                     "prev_long_midpoint": prev_long_midpoint,
                     "next_lat_midpoint": next_lat_midpoint,
-                    "next_long_midpoint": next_long_midpoint
+                    "next_long_midpoint": next_long_midpoint,
+                    "car_count": null
                 }
                 list.push(object);
               }
@@ -153,7 +162,9 @@ class HomepageMap extends Component{
           }
           else if( key === "I-15" || key === "I-215"){
             for(i=0;i < val.length;i++){
-              prev_cctv = null;
+
+              var prev_cctv = null;
+              
               if(i!== 0){
                 prev_cctv=val[i-1];
               }
@@ -204,12 +215,15 @@ class HomepageMap extends Component{
                 }
                 object = {
                     "cctv": val[i],
+                    "cctv_id": val[i].cctv_id,
                     "prev_cctv": prev_cctv,
                     "next_cctv": next_cctv,
                     "prev_lat_midpoint": prev_lat_midpoint,
                     "prev_long_midpoint": prev_long_midpoint,
                     "next_lat_midpoint": next_lat_midpoint,
-                    "next_long_midpoint": next_long_midpoint
+                    "next_long_midpoint": next_long_midpoint,
+                    "car_count": null,
+                    "color": 'grey',
                 }
                 list.push(object);
               }
@@ -220,7 +234,6 @@ class HomepageMap extends Component{
           }
         }
       }
-        console.log(list);
         this.setState({
           cctv_objects: list,
           error: false
@@ -233,6 +246,14 @@ class HomepageMap extends Component{
             error: true
         })
     });
+    //Used for updating congestion lines, every 10 seconds
+    this.intervalID = setInterval(
+      ()=> this.update_congestion_lines(),
+      60000
+    );
+    this.timeoutID = setTimeout(()=>{
+      this.update_congestion_lines();
+    }, 1000);
   }
 
   componentWillUnmount(){
@@ -240,9 +261,38 @@ class HomepageMap extends Component{
   }
   update_congestion_lines(){
     //Update Congestions Lines
-    this.setState({
-    //Set Congestion Lines
-    })
+    console.log("Updating Congestion lines");
+    var cctv_objects_dup = Array.from(this.state.cctv_objects);
+    //Go through all cameras
+      var target_url = "http://highwayanalytics.us/api/trafficData";
+      var target_photo_id = null;
+
+        fetch(target_url)
+          .then(res => res.json())
+          .then(
+              (result) => {
+              for(let i = 0;i < result.length; i++){
+                for(let j = 0; j < cctv_objects_dup.length; j++){
+                  if(result[i].cctv_id === cctv_objects_dup[j].cctv_id){
+                    //Match Found Assign latest car count to this cctv
+                    cctv_objects_dup[j].car_count = result[j].car_count;
+                    cctv_objects_dup[j]['color'] = this.grabColor(result[j].car_count)
+                    break;
+                  }
+                }
+              }
+                this.setState({
+			      cctv_objects: cctv_objects_dup
+			    });
+            },
+            (error) => {
+              console.log("Error updating Congestion");
+            }
+          );
+    //update cctv objects with new car counts
+
+    //console.log("Lines Done Updating",this.state.cctv_objects[0].car_count);
+    //console.log("here is cctv_objects",this.state.cctv_objects);
   }
   onMarkerClick = (props, marker) => {
     var latest_image = "http://highwayanalytics.us/api/search/?search=" + props.name;
@@ -288,7 +338,7 @@ class HomepageMap extends Component{
       showingInfoWindow: false
     });
 
-  onMapClicked = () => {
+  onMapClicked = (mapProps,map) => {
     if (this.state.showingInfoWindow){
       this.setState({
         activeMarker: null,
@@ -299,6 +349,22 @@ class HomepageMap extends Component{
     }
   };
 
+  grabColor(car_count){
+    //console.log("Car Count", car_count);
+    if(car_count >= 0 && car_count < 5){
+      return 'green';
+    }
+    else if(car_count >= 5 && car_count < 10){
+      return 'yellow';
+    }
+    else if(car_count >= 10 && car_count < 20){
+      return 'orange';
+    }
+    else{
+      // console.log("Setting to red", car_count);
+      return 'red';
+    }
+  }
   renderMap(){
     var icon_image = process.env.PUBLIC_URL + '/camera_icon2.png';
 
@@ -317,36 +383,41 @@ class HomepageMap extends Component{
           route = {d.route}
         />
     );
+    //prev_polyline
+
     var prev_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
-        //prev_polyline
             <Polyline
+              key= {object.cctv.latitude.toString() + object.cctv.longitude.toString() + count.toString()}
               path={[
                 { lat: object.prev_lat_midpoint, lng: object.prev_long_midpoint},
                 { lat: object.cctv.latitude, lng: object.cctv.longitude},
               ]}
               options={{
-              strokeColor: 'red',
-              strokeOpacity: 0.75,
-              strokeWeight: 10,
-              icons: [{
-                offset: '0',
-                repeat: '10px'}],
+	              strokeColor: object.color,
+	              strokeOpacity: 1,
+	              strokeWeight: 10,
+	              icons: [{
+	                offset: '0',
+	                repeat: '10px'
+	              }],
               }}
             />
-      )
-    );
+      ));
+
+    //prev_polyline
+    count = count + 1;
     var next_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
-        //prev_polyline
             <Polyline
+              key = {object.cctv_id.toString() + object.cctv.latitude.toString() + object.cctv.longitude.toString() + count.toString()}
               path={[
                 { lat: object.cctv.latitude, lng: object.cctv.longitude},
                 { lat: object.next_lat_midpoint, lng: object.next_long_midpoint},
               ]}
               options={{
-              strokeColor: 'green',
-              strokeOpacity: 0.75,
+              strokeColor: object.color,
+              strokeOpacity: 1,
               strokeWeight: 10,
               icons: [{
                 offset: '0',
@@ -355,9 +426,8 @@ class HomepageMap extends Component{
             />
       )
     );
-    return (
-      <div style={{ height: '92vh', width: '100%' }}>
-        <Map
+
+    var map = <Map
           google={this.props.google}
           zoom={this.props.zoom}
           style={this.props.style}
@@ -365,9 +435,13 @@ class HomepageMap extends Component{
           onClick={this.onMapClicked}
         >
           {cctvs}
-          {prev_congestion_lines}
           {next_congestion_lines}
+          {prev_congestion_lines}
         </Map>
+
+    return (
+      <div style={{ height: '92vh', width: '100%' }}>
+        {map}
       </div>
     );
   }
@@ -407,7 +481,6 @@ class HomepageMap extends Component{
   render(){
     var map = this.renderMap();
     var table = this.renderTable();
-
     return(
       <div>
         <div className="row" style={{"padding": "10px"}}>
