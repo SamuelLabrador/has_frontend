@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper, InfoWindow, Polyline} from 'google-maps-react';
 
+// class renderMap extends Component{
+//   render(){
+//     return(
+//
+//
+//     );
+//   }
+// }
 class HomepageMap extends Component{
   static defaultProps = {
     center: {
@@ -36,6 +44,7 @@ class HomepageMap extends Component{
     };
     this.update_congestion_lines = this.update_congestion_lines.bind(this);
     this.grabColor = this.grabColor.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -142,7 +151,7 @@ class HomepageMap extends Component{
           }
           else if( key === "I-15" || key === "I-215"){
             for(i=0;i < val.length;i++){
-              var prev_cctv = null;
+              var prev_cctv = null;https://reactjs.org/docs/state-and-lifecycle.html
               if(i!== 0){
                 prev_cctv=val[i-1];
               }
@@ -223,11 +232,11 @@ class HomepageMap extends Component{
             error: true
         })
     });
-  //Used for updating congestion lines, every 10 seconds
-    this.intervalID = setInterval(
-      ()=> this.update_congestion_lines(),
-      10000
-    );
+    //Used for updating congestion lines, every 10 seconds
+    // this.intervalID = setInterval(
+    //   ()=> this.update_congestion_lines(),
+    //   10000
+    // );
 
   }
 
@@ -236,42 +245,23 @@ class HomepageMap extends Component{
   }
   update_congestion_lines(){
     //Update Congestions Lines
+    console.log("Updating Congestion lines");
     var cctv_objects_dup = Array.from(this.state.cctv_objects);
     //Go through all cameras
-    for(var i = 0; i < cctv_objects_dup.length;i++){
-      var target_url = "http://highwayanalytics.us/api/vehicle/?cctv="+cctv_objects_dup[i].cctv_id+"&format=json";
+      var target_url = "http://highwayanalytics.us/api/trafficData";
       var target_photo_id = null;
-      if(cctv_objects_dup[i].cctv_id !== undefined){
+
         fetch(target_url)
           .then(res => res.json())
           .then(
-            (result) => {
-              if(result !== undefined){
-                if(result.results !== undefined){
-                  if(result.results[0] !== undefined){
-                    //Find most recent photo id on specific camera
-                    target_photo_id = result.results[0].photo;
-                    target_url = "http://highwayanalytics.us/api/vehicle/?photo="+target_photo_id+"&format=json";
-                    fetch(target_url)
-                    .then( res => res.json())
-                    .then(
-                      (result) => {
-                        //assign that camera the result of photo count
-                          for(let index = 0; index < cctv_objects_dup.length; index++){
-                            if(cctv_objects_dup[index] === undefined){
-                              console.log("undefined");
-                              continue;
-                            }
-                            if(cctv_objects_dup[index].cctv_id === result.results[0].cctv){
-                              cctv_objects_dup[index].car_count = result.count;
-                              break;
-                            }
-                          }
-                      },
-                      (error) =>{
-                        console.log("Error with using target_photo_id");
-                      } 
-                    ); 
+              (result) => {
+                console.log(result);
+              for(let i = 0;i < result.length; i++){
+                for(let j = 0; j < cctv_objects_dup.length; j++){
+                  if(result[i].cctv_id === cctv_objects_dup[j].cctv_id){
+                    //Match Found Assign latest car count to this cctv
+                    cctv_objects_dup[j].car_count = result[j].car_count;
+                    break;
                   }
                 }
               }
@@ -280,8 +270,6 @@ class HomepageMap extends Component{
               console.log("Error updating Congestion");
             }
           );
-      }
-    }
     //update cctv objects with new car counts
     this.setState({
       cctv_objects: cctv_objects_dup
@@ -333,7 +321,7 @@ class HomepageMap extends Component{
       showingInfoWindow: false
     });
 
-  onMapClicked = () => {
+  onMapClicked = (mapProps,map) => {
     if (this.state.showingInfoWindow){
       this.setState({
         activeMarker: null,
@@ -343,13 +331,14 @@ class HomepageMap extends Component{
       console.log(this.state.showingInfoWindow)
     }
   };
-  
+
   grabColor = (car_count) =>{
-    console.log("Car Count", car_count);
+    //console.log("Car Count", car_count);
     if(car_count === null){
       return 'green';
     }
     else{
+      console.log("Setting to red", car_count);
       return 'red';
     }
   }
@@ -374,7 +363,7 @@ class HomepageMap extends Component{
     var prev_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
         //prev_polyline
-            <Polyline 
+            <Polyline
               key= {object.cctv.latitude.toString() + object.cctv.longitude.toString()}
               path={[
                 { lat: object.prev_lat_midpoint, lng: object.prev_long_midpoint},
@@ -395,6 +384,7 @@ class HomepageMap extends Component{
       (object)=>(
         //prev_polyline
             <Polyline
+              key = {object.cctv_id.toString() + object.cctv.latitude.toString() + object.cctv.longitude.toString()}
               path={[
                 { lat: object.cctv.latitude, lng: object.cctv.longitude},
                 { lat: object.next_lat_midpoint, lng: object.next_long_midpoint},
@@ -410,6 +400,7 @@ class HomepageMap extends Component{
             />
       )
     );
+
     return (
       <div style={{ height: '92vh', width: '100%' }}>
         <Map
@@ -458,6 +449,11 @@ class HomepageMap extends Component{
     return content;
   }
 
+  handleClick(){
+    this.update_congestion_lines();
+    console.log(this.state.cctv_objects);
+    this.forceUpdate();
+  }
   render(){
     var map = this.renderMap();
     var table = this.renderTable();
@@ -468,6 +464,7 @@ class HomepageMap extends Component{
         </div>
         <div className="col-3">
           {table}
+          <button onClick={this.handleClick}> Update Congestion Lines</button>
         </div>
       </div>
     );
