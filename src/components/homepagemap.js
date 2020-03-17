@@ -213,7 +213,7 @@ class HomepageMap extends Component{
                     "next_lat_midpoint": next_lat_midpoint,
                     "next_long_midpoint": next_long_midpoint,
                     "car_count": null,
-                    "color": 'grey', 
+                    "color": 'grey',
                 }
                 list.push(object);
               }
@@ -339,8 +339,14 @@ class HomepageMap extends Component{
 
   grabColor(car_count){
     //console.log("Car Count", car_count);
-    if(car_count === null){
+    if(car_count >= 0 && car_count < 5){
       return 'green';
+    }
+    else if(car_count >= 5 && car_count < 10){
+      return 'yellow';
+    }
+    else if(car_count >= 10 && car_count < 20){
+      return 'orange';
     }
     else{
       // console.log("Setting to red", car_count);
