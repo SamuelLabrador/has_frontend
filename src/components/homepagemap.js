@@ -9,6 +9,9 @@ import {Map, Marker, GoogleApiWrapper, InfoWindow, Polyline} from 'google-maps-r
 //     );
 //   }
 // }
+
+var count = 0
+
 class HomepageMap extends Component{
   static defaultProps = {
     center: {
@@ -209,7 +212,8 @@ class HomepageMap extends Component{
                     "prev_long_midpoint": prev_long_midpoint,
                     "next_lat_midpoint": next_lat_midpoint,
                     "next_long_midpoint": next_long_midpoint,
-                    "car_count": null
+                    "car_count": null,
+                    "color": 'grey', 
                 }
                 list.push(object);
               }
@@ -255,25 +259,26 @@ class HomepageMap extends Component{
           .then(res => res.json())
           .then(
               (result) => {
-                console.log(result);
               for(let i = 0;i < result.length; i++){
                 for(let j = 0; j < cctv_objects_dup.length; j++){
                   if(result[i].cctv_id === cctv_objects_dup[j].cctv_id){
                     //Match Found Assign latest car count to this cctv
                     cctv_objects_dup[j].car_count = result[j].car_count;
+                    cctv_objects_dup[j]['color'] = this.grabColor(result[j].car_count)
                     break;
                   }
                 }
               }
+                this.setState({
+			      cctv_objects: cctv_objects_dup
+			    });
             },
             (error) => {
               console.log("Error updating Congestion");
             }
           );
     //update cctv objects with new car counts
-    this.setState({
-      cctv_objects: cctv_objects_dup
-    });
+
     //console.log("Lines Done Updating",this.state.cctv_objects[0].car_count);
     //console.log("here is cctv_objects",this.state.cctv_objects);
   }
@@ -332,13 +337,13 @@ class HomepageMap extends Component{
     }
   };
 
-  grabColor = (car_count) =>{
+  grabColor(car_count){
     //console.log("Car Count", car_count);
     if(car_count === null){
       return 'green';
     }
     else{
-      console.log("Setting to red", car_count);
+      // console.log("Setting to red", car_count);
       return 'red';
     }
   }
@@ -360,38 +365,41 @@ class HomepageMap extends Component{
           route = {d.route}
         />
     );
+    //prev_polyline
+
     var prev_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
-        //prev_polyline
             <Polyline
-              key= {object.cctv.latitude.toString() + object.cctv.longitude.toString()}
+              key= {object.cctv.latitude.toString() + object.cctv.longitude.toString() + count.toString()}
               path={[
                 { lat: object.prev_lat_midpoint, lng: object.prev_long_midpoint},
                 { lat: object.cctv.latitude, lng: object.cctv.longitude},
               ]}
               options={{
-              strokeColor: this.grabColor(object.car_count),
-              strokeOpacity: 0.75,
-              strokeWeight: 10,
-              icons: [{
-                offset: '0',
-                repeat: '10px'}],
+	              strokeColor: object.color,
+	              strokeOpacity: 1,
+	              strokeWeight: 10,
+	              icons: [{
+	                offset: '0',
+	                repeat: '10px'
+	              }],
               }}
             />
-      )
-    );
+      ));
+
+    //prev_polyline
+    count = count + 1;
     var next_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
-        //prev_polyline
             <Polyline
-              key = {object.cctv_id.toString() + object.cctv.latitude.toString() + object.cctv.longitude.toString()}
+              key = {object.cctv_id.toString() + object.cctv.latitude.toString() + object.cctv.longitude.toString() + count.toString()}
               path={[
                 { lat: object.cctv.latitude, lng: object.cctv.longitude},
                 { lat: object.next_lat_midpoint, lng: object.next_long_midpoint},
               ]}
               options={{
-              strokeColor: this.grabColor(object.car_count),
-              strokeOpacity: 0.75,
+              strokeColor: object.color,
+              strokeOpacity: 1,
               strokeWeight: 10,
               icons: [{
                 offset: '0',
@@ -401,9 +409,7 @@ class HomepageMap extends Component{
       )
     );
 
-    return (
-      <div style={{ height: '92vh', width: '100%' }}>
-        <Map
+    var map = <Map
           google={this.props.google}
           zoom={this.props.zoom}
           style={this.props.style}
@@ -411,9 +417,13 @@ class HomepageMap extends Component{
           onClick={this.onMapClicked}
         >
           {cctvs}
-          {prev_congestion_lines}
           {next_congestion_lines}
+          {prev_congestion_lines}
         </Map>
+
+    return (
+      <div style={{ height: '92vh', width: '100%' }}>
+        {map}
       </div>
     );
   }
