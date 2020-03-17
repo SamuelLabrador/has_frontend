@@ -47,7 +47,6 @@ class HomepageMap extends Component{
     };
     this.update_congestion_lines = this.update_congestion_lines.bind(this);
     this.grabColor = this.grabColor.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -237,11 +236,13 @@ class HomepageMap extends Component{
         })
     });
     //Used for updating congestion lines, every 10 seconds
-    // this.intervalID = setInterval(
-    //   ()=> this.update_congestion_lines(),
-    //   10000
-    // );
-
+    this.intervalID = setInterval(
+      ()=> this.update_congestion_lines(),
+      60000
+    );
+    this.timeoutID = setTimeout(()=>{
+      this.update_congestion_lines();
+    }, 200);
   }
 
   componentWillUnmount(){
@@ -465,11 +466,6 @@ class HomepageMap extends Component{
     return content;
   }
 
-  handleClick(){
-    this.update_congestion_lines();
-    console.log(this.state.cctv_objects);
-    this.forceUpdate();
-  }
   render(){
     var map = this.renderMap();
     var table = this.renderTable();
@@ -480,7 +476,6 @@ class HomepageMap extends Component{
         </div>
         <div className="col-3">
           {table}
-          <button onClick={this.handleClick}> Update Congestion Lines</button>
         </div>
       </div>
     );
