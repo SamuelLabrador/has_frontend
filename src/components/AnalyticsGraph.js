@@ -136,6 +136,7 @@ class AnalyticsGraph extends Component{
 
     return(
       <div style={{ height: '15%', width: '85%', padding: '20px' }} >
+        <h2 style={{color: "white"}}> Top 5 Congested Freeways </h2>
         <table className="table table-bordered table-hover" id="myTable">
           <thead>
               <tr>
@@ -207,6 +208,7 @@ class AnalyticsGraph extends Component{
 
     return(
       <div style={{ marginLeft : '40px', marginTop : '40px'}}>
+            <h2 style={{color:"white"}}> Top 5 Congested CCTVs </h2>
             <table className="table table-bordered table-hover" id="myTable">
               <thead>
                   <tr>
@@ -451,6 +453,7 @@ class AnalyticsGraph extends Component{
               {vehiclesPerCCTV}
             </div>
             <div className="col-sm" style={{ marginLeft : '60px', marginTop : '40px'}}>
+              <h2 style={{color:"white"}}> Vehicle Distribution </h2>
               <RadialChart
                 colorType='literal'
                 getAngle={d => d.count}
@@ -467,7 +470,7 @@ class AnalyticsGraph extends Component{
               </RadialChart>
             </div>
             <div className="col-sm">
-            <h2 style={{color:"#eeeeee", marginLeft:'20px'}}> Color Legend </h2>
+            <h2 style={{color:"#eeeeee",marginTop:'40px', marginLeft:'20px'}}> Color Legend </h2>
               <div className="card" style={{margin:'20px'}}>
                 <DiscreteColorLegend
                   height={300}
