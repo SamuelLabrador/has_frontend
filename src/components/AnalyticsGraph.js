@@ -147,7 +147,7 @@ class AnalyticsGraph extends Component{
     var count = []
 
     for (var vehicle in orderedrouteVehicle) {
-        sortable.push([vehicle, orderedrouteVehicle[vehicle]]);
+        sortable.push([vehicle, parseInt(orderedrouteVehicle[vehicle]/cctvPerRoute[vehicle],10) ]);
     }
 
     sortable.sort(function(a, b){
@@ -176,35 +176,35 @@ class AnalyticsGraph extends Component{
             <tr>
               <td style={{"color":"white"}}>1</td>
               <td style={{"color":"white"}}>{route[0]}</td>
-              <td style={{"color":"white"}}>{parseInt(count[0]/cctvPerRoute[route[0]], 10)}</td>
+              <td style={{"color":"white"}}>{count[0]}</td>
             </tr>
           </tbody>
           <tbody>
             <tr>
               <td style={{"color":"white"}}>2</td>
               <td style={{"color":"white"}}>{route[1]}</td>
-              <td style={{"color":"white"}}>{parseInt(count[1]/cctvPerRoute[route[1]],10)}</td>
+              <td style={{"color":"white"}}>{count[1]}</td>
             </tr>
           </tbody>
           <tbody>
             <tr>
               <td style={{"color":"white"}}>3</td>
               <td style={{"color":"white"}}>{route[2]}</td>
-              <td style={{"color":"white"}}>{parseInt(count[2]/cctvPerRoute[route[2]],10)}</td>
+              <td style={{"color":"white"}}>{count[2]}</td>
             </tr>
           </tbody>
           <tbody>
             <tr>
               <td style={{"color":"white"}}>4</td>
               <td style={{"color":"white"}}>{route[3]}</td>
-              <td style={{"color":"white"}}>{parseInt(count[3]/cctvPerRoute[route[3]], 10)}</td>
+              <td style={{"color":"white"}}>{count[3]}</td>
             </tr>
           </tbody>
           <tbody>
             <tr>
               <td style={{"color":"white"}}>5</td>
               <td style={{"color":"white"}}>{route[4]}</td>
-              <td style={{"color":"white"}}>{parseInt(count[4]/cctvPerRoute[route[4]], 10)}</td>
+              <td style={{"color":"white"}}>{count[4]}</td>
             </tr>
           </tbody>
         </table>
