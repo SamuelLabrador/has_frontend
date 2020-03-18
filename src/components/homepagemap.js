@@ -491,7 +491,7 @@ class HomepageMap extends Component{
           <div className="col-9">
             {map}
           </div>
-          <div className="col-3" style={{"background-color":"#333333"}}>
+          <div className="col-3 bg-dark">
             <div style={{"padding":"0,0,0,0"}}className="container-fluid bg-dark">
                 <VehicleCounter/>
             </div>
