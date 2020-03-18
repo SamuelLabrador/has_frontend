@@ -371,7 +371,7 @@ class AnalyticsGraph extends Component{
         <div className="container">
           <div className="row" style={{"background-color":"#393e46","height":"45vh"}}>
             <div className="col-1">
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
+              <div style={{"margin-top":"30px","margin-bottom":"5px"}}>
                   <button className="click-me btn btn-info" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked0()}}>
                     I-215
                   </button>
