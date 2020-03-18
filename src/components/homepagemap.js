@@ -164,7 +164,7 @@ class HomepageMap extends Component{
             for(i=0;i < val.length;i++){
 
               var prev_cctv = null;
-              
+
               if(i!== 0){
                 prev_cctv=val[i-1];
               }
@@ -289,10 +289,7 @@ class HomepageMap extends Component{
               console.log("Error updating Congestion");
             }
           );
-    //update cctv objects with new car counts
 
-    //console.log("Lines Done Updating",this.state.cctv_objects[0].car_count);
-    //console.log("here is cctv_objects",this.state.cctv_objects);
   }
   onMarkerClick = (props, marker) => {
     var latest_image = "http://highwayanalytics.us/api/search/?search=" + props.name;
@@ -304,7 +301,6 @@ class HomepageMap extends Component{
         (result) => {
           //console.log(result.results[0].file_name)
           path.push(result.results[0].file_name)
-
           this.setState({
             activeMarker: marker,
             selectedPlace: props,
@@ -448,13 +444,18 @@ class HomepageMap extends Component{
 
   renderTable(){
     var content = []
-
     var path = "http://highwayanalytics.us/image/" + this.state.image_path;
-
+    var car_count = 0;
+    for(let i=0;i<this.state.cctv_objects.length;i++){
+      if(this.state.cctv_objects[i].cctv_id == this.state.selectedPlace.name){
+        car_count = this.state.cctv_objects[i].car_count;
+        break;
+      }
+    }
     if (this.state.showingInfoWindow !== false) {
       content.push(
         <div className="row" style={{'padding': '35px'}}>
-          <h2> Marker Information</h2>
+          <h2 style={{"color":"white"}}> Marker Information</h2>
           <img
             src = {path}
             alt="MAKER GOES HERE"
@@ -463,15 +464,16 @@ class HomepageMap extends Component{
             }}
           />
           <div>
-            <span> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
-            <p> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
+            <span style={{"color":"white",fontSize:"20px"}}> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
+            <p style={{"color":"white",fontSize:"20px"}}> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
+            <p style={{"color":"white",fontSize:"20px"}}> Cars Last Counted in Frame : {car_count}  </p>
           </div>
         </div>
       );
     }else{
       content.push(
         <div className="row" style={{'padding': '35px'}}>
-          <h2> Marker Information</h2>
+          <h2 style={{"color":"white"}}> Marker Information</h2>
         </div>
       );
     }
@@ -484,15 +486,15 @@ class HomepageMap extends Component{
     return(
       <div>
         <div className="row" style={{"padding": "10px"}}>
-          <div className="container-fluid">
-            <VehicleCounter/>
-          </div>
         </div>
         <div className="row">
           <div className="col-9">
             {map}
           </div>
-          <div className="col-3">
+          <div className="col-3" style={{"background-color":"#333333"}}>
+            <div style={{"padding":"0,0,0,0"}}className="container-fluid bg-dark">
+                <VehicleCounter/>
+            </div>
             {table}
           </div>
         </div>

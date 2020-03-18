@@ -4,14 +4,20 @@ import React, {Component} from 'react';
 import Analytics from './analytics.js';
 import Cameras from './cameras.js';
 import Home from './home.js';
+import VehicleCounter from './vehicleCounter.js'
+import './css/header.css';
 // import NotificationSignUp from './notificationsignup.js';
 
 class Header extends Component{
 
 	render(){
+		var icon_image = process.env.PUBLIC_URL + '/highway.png';
 		return (
 			<div>
-				<ul className="nav justify-content-begin">
+				<ul className="nav justify-content-begin nav-tabs bg-dark">
+					<li className="nav-item">
+						<img className="nav-icon" src={icon_image} alt= "Highway Icon"/>
+					</li>
 					<li className="nav-item">
 						<Link className="nav-link" to="/">Highway Analytics System</Link>
 					</li>
@@ -22,7 +28,6 @@ class Header extends Component{
 					<li className="nav-item">
 						<Link className="nav-link" to="/cameras">Cameras</Link>
 					</li>
-
 				</ul>
 				<Switch>
 					<Route path="/cameras">

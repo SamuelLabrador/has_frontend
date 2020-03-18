@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import AnalyticsGraph from './AnalyticsGraph.js'
 
 class Analytics extends Component{
-	
+
 
 	render(){
 		return (
-			<div>
-				<h1>Analytics</h1>
+			<div style={{"background-color":"#232931","height":"100vh"}}>
+				<h1 style={{"color":"white"}} >Analytics</h1>
 				<AnalyticsGraph/>
 			</div>
 		);

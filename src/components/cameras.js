@@ -11,7 +11,7 @@ class Cameras extends Component{
 
 	componentDidMount() {
 	    var url = "http://highwayanalytics.us/api/cctv?format=json";
-	    
+
 	    fetch(url)
 	    .then(res => res.json())
 	    .then(
@@ -56,7 +56,7 @@ class Cameras extends Component{
   			else{
   				row.push(
   					<div className="col" style={{'text-align': 'center'}}>
-  						<h5>{tv.route} ({tv.latitude}, {tv.longitude})</h5>
+  						<h5 style={{color:"white"}}>{tv.route} ({tv.latitude}, {tv.longitude})</h5>
   						<img alt="cctv" src={tv.image_url} style={{width:"320px", height:"260px"}}/>
   					</div>
   				);
@@ -70,9 +70,9 @@ class Cameras extends Component{
 		var images = this.renderImages();
 
 		return (
-			<div>
-				<h1>Cameras</h1>
-				
+			<div style={{backgroundColor:"#232931"}}>
+				<h1 style={{color:"white"}}>Cameras</h1>
+
 				<div className="container-fluid">
 					{images}
 				</div>

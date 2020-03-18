@@ -37,16 +37,16 @@ class VechicleCounter extends Component{
 				<table>
 					<tr>
 						<td>
-							Vehicles Found: 
+							<p style={{"color":"white", "font-size":"25px", "padding-top":"8px"}}>Vehicles Found: </p>
 						</td>
-						<td>
-							<FlipNumbers  height={24} width={24} color="black" play numbers={this.state.count.toString()}/>
+						<td style={{"padding-bottom":"5px"}}>
+							<FlipNumbers height={24} width={24} color="white" play numbers={this.state.count.toString()}/>
 						</td>
 					</tr>
 				</table>
 			</div>
 		)
 	}
-} 
+}
 
 export default VechicleCounter;
