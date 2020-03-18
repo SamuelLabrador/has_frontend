@@ -34,7 +34,7 @@ class VechicleCounter extends Component{
 	render(){
 		return(
 			<div>
-				<table>
+				<table style={{"margin": "auto"}}>
 					<tr>
 						<td>
 							<p style={{"color":"white", "font-size":"25px", "padding-top":"8px"}}>Vehicles Found: </p>

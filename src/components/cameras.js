@@ -70,7 +70,7 @@ class Cameras extends Component{
 		var images = this.renderImages();
 
 		return (
-			<div style={{backgroundColor:"#232931"}}>
+			<div style={{backgroundColor:"#232931", "text-align" : "center"}}>
 				<h1 style={{color:"white"}}>Cameras</h1>
 
 				<div className="container-fluid">

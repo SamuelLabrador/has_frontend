@@ -460,12 +460,12 @@ class HomepageMap extends Component{
             src = {path}
             alt="MAKER GOES HERE"
             style={{
-              width: '380px'
+              width: '98%'
             }}
           />
           <div>
-            <span style={{"color":"white",fontSize:"20px"}}> Lat : {this.state.selectedPlace.lat} Long: {this.state.selectedPlace.long}</span>
-            <p style={{"color":"white",fontSize:"20px"}}> Route : {this.state.selectedPlace.route} Marker_Id : {this.state.selectedPlace.name}</p>
+            <span style={{"color":"white",fontSize:"20px"}}> Lat : {this.state.selectedPlace.lat} <br></br>Long: {this.state.selectedPlace.long}</span>
+            <p style={{"color":"white",fontSize:"20px"}}> Route : {this.state.selectedPlace.route} <br></br>CCTV ID : {this.state.selectedPlace.name}</p>
             <p style={{"color":"white",fontSize:"20px"}}> Cars Last Counted in Frame : {car_count}  </p>
           </div>
         </div>
@@ -473,7 +473,8 @@ class HomepageMap extends Component{
     }else{
       content.push(
         <div className="row" style={{'padding': '35px'}}>
-          <h2 style={{"color":"white"}}> Marker Information</h2>
+          <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
+          <p style={{"color":"white", "margin": "auto"}}>Click on a cctv to view its most recent image.</p> 
         </div>
       );
     }
@@ -485,17 +486,17 @@ class HomepageMap extends Component{
     var table = this.renderTable();
     return(
       <div>
-        <div className="row" style={{"padding": "10px"}}>
+        <div className="row" style={{"padding": "10px", "background-color": "rgb(35, 41, 49)"}}>
         </div>
-        <div className="row">
+        <div className="row" style={{"background-color": "rgb(35, 41, 49)"}}>
           <div className="col-9">
             {map}
           </div>
-          <div className="col-3 bg-dark">
+          <div className="col-3">
             <div style={{"padding":"0,0,0,0"}}className="container-fluid bg-dark">
                 <VehicleCounter/>
+            	{table}
             </div>
-            {table}
           </div>
         </div>
       </div>
