@@ -2,15 +2,6 @@ import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
 import VehicleCounter from './vehicleCounter.js'
 
-// class renderMap extends Component{
-//   render(){
-//     return(
-//
-//
-//     );
-//   }
-// }
-
 var count = 0
 
 class HomepageMap extends Component{
@@ -51,6 +42,7 @@ class HomepageMap extends Component{
   }
 
   componentDidMount() {
+    // Get CCTVS
     var url = "http://highwayanalytics.us/api/cctv?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
@@ -238,6 +230,7 @@ class HomepageMap extends Component{
           cctv_objects: list,
           error: false
       });
+      this.update_congestion_lines();
     },
     (error) => {
         //console.log(error);
@@ -246,14 +239,15 @@ class HomepageMap extends Component{
             error: true
         })
     });
-    //Used for updating congestion lines, every 10 seconds
+
+    // Used for updating congestion lines, every 10 minutes
+    // Need to reduce traffic on Server
     this.intervalID = setInterval(
       ()=> this.update_congestion_lines(),
-      60000
+      600000
     );
-    this.timeoutID = setTimeout(()=>{
-      this.update_congestion_lines();
-    }, 1000);
+
+
   }
 
   componentWillUnmount(){
@@ -271,6 +265,7 @@ class HomepageMap extends Component{
           .then(res => res.json())
           .then(
               (result) => {
+                console.log(result);
               for(let i = 0;i < result.length; i++){
                 for(let j = 0; j < cctv_objects_dup.length; j++){
                   if(result[i].cctv_id === cctv_objects_dup[j].cctv_id){
@@ -299,6 +294,7 @@ class HomepageMap extends Component{
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(result);
           //console.log(result.results[0].file_name)
           path.push(result.results[0].file_name)
           this.setState({
@@ -362,7 +358,7 @@ class HomepageMap extends Component{
     }
   }
   renderMap(){
-    var icon_image = process.env.PUBLIC_URL + '/camera_icon2.png';
+    var icon_image = process.env.PUBLIC_URL + '/camera_icon3.png';
 
     var cctvs = this.state.cctvs.map(
       (d) =>
@@ -372,7 +368,7 @@ class HomepageMap extends Component{
           onClick = {this.onMarkerClick}
           onMouseover={this.onMouseoverMarker}
           onMouseout={this.onMouseoutMarker}
-          position = { {lat: d.latitude, lng: d.longitude} }
+          position = {{lat: d.latitude, lng: d.longitude}}
           lat = {d.latitude}
           long = {d.longitude}
           image_url = {d.image_url}
@@ -455,7 +451,7 @@ class HomepageMap extends Component{
     if (this.state.showingInfoWindow !== false) {
       content.push(
         <div className="row" style={{'padding': '35px'}}>
-          <h2 style={{"color":"white"}}> Marker Information</h2>
+          <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
           <img
             src = {path}
             alt="MAKER GOES HERE"
@@ -486,9 +482,9 @@ class HomepageMap extends Component{
     var table = this.renderTable();
     return(
       <div>
-        <div className="row" style={{"padding": "10px", "background-color": "rgb(35, 41, 49)"}}>
+        <div className="row" style={{"padding": "10px", "backgroundColor": "rgb(35, 41, 49)"}}>
         </div>
-        <div className="row" style={{"background-color": "rgb(35, 41, 49)"}}>
+        <div className="row" style={{"backgroundColor": "rgb(35, 41, 49)"}}>
           <div className="col-9">
             {map}
           </div>

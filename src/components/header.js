@@ -4,7 +4,8 @@ import React, {Component} from 'react';
 import Analytics from './analytics.js';
 import Cameras from './cameras.js';
 import Home from './home.js';
-import VehicleCounter from './vehicleCounter.js'
+import VehicleCounter from './vehicleCounter.js';
+import About from './about.js'
 import './css/header.css';
 // import NotificationSignUp from './notificationsignup.js';
 
@@ -24,9 +25,11 @@ class Header extends Component{
 					<li className="nav-item">
 						<Link className="nav-link" to="/analytics">Analytics</Link>
 					</li>
-
 					<li className="nav-item">
 						<Link className="nav-link" to="/cameras">Cameras</Link>
+					</li>
+					<li className="nav-item">
+						<Link className="nav-link" to="/about">About</Link>
 					</li>
 				</ul>
 				<Switch>
@@ -35,6 +38,9 @@ class Header extends Component{
 					</Route>
 					<Route path="/analytics">
 						<Analytics/>
+					</Route>
+					<Route path="/about">
+						<About/>
 					</Route>
 					<Route path="/">
 						<Home/>
