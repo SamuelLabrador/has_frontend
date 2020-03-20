@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
 import VehicleCounter from './vehicleCounter.js'
-
+import Canvas from './canvas.js'
 var count = 0
 
 class HomepageMap extends Component{
@@ -438,6 +438,11 @@ class HomepageMap extends Component{
     );
   }
 
+  drawBoundingBox(canvas, x_min, y_min, x_max, y_max){
+
+  }
+
+  // Renders the Marker Window
   renderTable(){
     var content = []
     var path = "http://highwayanalytics.us/image/" + this.state.image_path;
@@ -452,13 +457,8 @@ class HomepageMap extends Component{
       content.push(
         <div className="row" style={{'padding': '35px'}}>
           <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
-          <img
-            src = {path}
-            alt="MAKER GOES HERE"
-            style={{
-              width: '98%'
-            }}
-          />
+          <Canvas url={path}/>
+          
           <div>
             <span style={{"color":"white",fontSize:"20px"}}> Lat : {this.state.selectedPlace.lat} <br></br>Long: {this.state.selectedPlace.long}</span>
             <p style={{"color":"white",fontSize:"20px"}}> Route : {this.state.selectedPlace.route} <br></br>CCTV ID : {this.state.selectedPlace.name}</p>
