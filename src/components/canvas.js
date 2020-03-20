@@ -9,7 +9,6 @@ class Canvas extends Component{
 	}
 
 	componentDidMount(){
-		console.log('component did mount method');
 		const canvas = this.refs.canvas;
 		const ctx = canvas.getContext("2d");
 		const img = this.refs.image;
@@ -29,12 +28,12 @@ class Canvas extends Component{
 					var entry = boxes[i];
 					var shift = 10
 					var x_min = entry['x_min'] * width;
-					var y_min = entry['y_min'] * height - shift;
+					var y_min = entry['y_min'] * height;
 					var x_max = entry['x_max'] * width;
-					var y_max = entry['y_max'] * height - shift;
+					var y_max = entry['y_max'] * height;
 					
 					var xUpperLeft = x_min;
-					var yUpperLeft = y_max;
+					var yUpperLeft = y_min; // Weird transloation of images... PIL's y_min === html's y_max
 					var rect_width = x_max - x_min;
 					var rect_height = y_max - y_min;
 
@@ -53,7 +52,6 @@ class Canvas extends Component{
 	}
 
 	render(){		
-		console.log('drawing canvas...');
 
 		return (
 			<div className="container-fluid">

@@ -20,6 +20,7 @@ class ContactInfo extends Component{
 				<p classname="text-justify">
 					Contact Information:
 				</p>
+
 				<table className="table" style={{'color': 'white'}}>
 					<tbody>
 						<tr>
