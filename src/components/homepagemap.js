@@ -270,8 +270,8 @@ class HomepageMap extends Component{
                 for(let j = 0; j < cctv_objects_dup.length; j++){
                   if(result[i].cctv_id === cctv_objects_dup[j].cctv_id){
                     //Match Found Assign latest car count to this cctv
-                    cctv_objects_dup[j].car_count = result[j].car_count;
-                    cctv_objects_dup[j]['color'] = this.grabColor(result[j].car_count)
+                    cctv_objects_dup[j].car_count = result[i].car_count;
+                    cctv_objects_dup[j]['color'] = this.grabColor(result[i].car_count)
                     break;
                   }
                 }
