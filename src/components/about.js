@@ -10,11 +10,10 @@ class ContactInfo extends Component{
 	}
 
 	render(){
-		if(this.state.linkedin !== null){
-			var linkedin = <a href={this.props.linkedin}>link</a>;
-		}
-		else{
-			var linkedin = "none"
+		var linkedin = "none"
+
+		if(this.props.linkedin !== null){
+			linkedin = <a href={this.props.linkedin}>link</a>;
 		}
 		return (
 			<div>
@@ -65,19 +64,13 @@ class About extends Component{
 					</p>
 
 					<h1 className="text-center">The Team</h1>
+
 					<div className="row">
-						<div className="col-sm">
-							<h4 className="text-center">Winson Bi</h4>
-							<ContactInfo
-								email=""
-								linkedin=""
-							/>
-						</div>	
 						<div className="col-sm">			
 							<h4 className="text-center">Takbir Islam</h4>
 							<ContactInfo
-								email=""
-								linkedin=""
+								email={null}
+								linkedin="https://www.linkedin.com/in/takbir-islam-a45b72159/"
 							/>
 						</div>			
 						<div className="col-sm">
@@ -87,6 +80,13 @@ class About extends Component{
 								linkedin="https://www.linkedin.com/in/samuellabrador/"
 							/>
 						</div>
+						<div className="col-sm">
+							<h4 className="text-center">Winson Bi</h4>
+							<ContactInfo
+								email={null}
+								linkedin="https://www.linkedin.com/in/winson-bi-09917617a/"
+							/>
+						</div>	
 					</div>
 				</div>
 			</div>
