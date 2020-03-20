@@ -147,7 +147,7 @@ class AnalyticsGraph extends Component{
     var count = []
 
     for (var vehicle in orderedrouteVehicle) {
-      if(vehicle != "SR-138" && vehicle != "SR-18"){
+      if(vehicle !== "SR-138" && vehicle !== "SR-18"){
         sortable.push([vehicle, parseInt(orderedrouteVehicle[vehicle]/cctvPerRoute[vehicle],10) ]);
       }
     }

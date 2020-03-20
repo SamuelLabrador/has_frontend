@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Canvas from './canvas.js'
 
 class ContactInfo extends Component{
 	constructor(props){

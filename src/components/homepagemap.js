@@ -50,15 +50,15 @@ class HomepageMap extends Component{
     (result) => {
     	var list = [];
     	for(var i = 0; i < result.length; i++){
-      		var cctv = result[i];
-      		if(cctv.image_url !== "Not Reported"){
-            list.push(cctv);
-      		}
-      	}
-      	this.setState({
-	        cctvs: list,
-	        error: false
-	    });
+    		var cctv = result[i];
+    		if(cctv.image_url !== "Not Reported"){
+          list.push(cctv);
+    		}
+    	}
+    	this.setState({
+        cctvs: list,
+        error: false
+      });
     },
     (error) => {
         //console.log(error);
@@ -96,10 +96,10 @@ class HomepageMap extends Component{
               if(i !== (val.length-1)){
                 next_cctv = val[i+1];
                 //Calc distance
-                prev_lat_midpoint = null;
-                prev_long_midpoint = null;
-                next_lat_midpoint = null;
-                next_long_midpoint = null;
+                prev_lat_midpoint = val[i].latitude;
+                prev_long_midpoint = val[i].longitude;
+                next_lat_midpoint = val[i].latitude;
+                next_long_midpoint = val[i].longitude;
                 temp = null;
                 if(prev_cctv !== null){
                   if(prev_cctv.latitude > val[i].latitude){
@@ -155,7 +155,7 @@ class HomepageMap extends Component{
           else if( key === "I-15" || key === "I-215"){
             for(i=0;i < val.length;i++){
 
-              var prev_cctv = null;
+              prev_cctv = null;
 
               if(i!== 0){
                 prev_cctv=val[i-1];
@@ -164,10 +164,10 @@ class HomepageMap extends Component{
               if(i !== (val.length-1)){
                 next_cctv = val[i+1];
                 //Calc distance
-                prev_lat_midpoint = null;
-                prev_long_midpoint = null;
-                next_lat_midpoint = null;
-                next_long_midpoint = null;
+                prev_lat_midpoint = val[i].latitude;
+                prev_long_midpoint = val[i].longitude;
+                next_lat_midpoint = val[i].latitude;
+                next_long_midpoint = val[i].longitude;
                 temp = null;
                 if(prev_cctv !== null){
                   if(prev_cctv.latitude > val[i].latitude){
@@ -255,35 +255,33 @@ class HomepageMap extends Component{
   }
   update_congestion_lines(){
     //Update Congestions Lines
-    console.log("Updating Congestion lines");
     var cctv_objects_dup = Array.from(this.state.cctv_objects);
     //Go through all cameras
-      var target_url = "http://highwayanalytics.us/api/trafficData";
-      var target_photo_id = null;
+    var target_url = "http://highwayanalytics.us/api/trafficData";
 
-        fetch(target_url)
-          .then(res => res.json())
-          .then(
-              (result) => {
-                console.log(result);
-              for(let i = 0;i < result.length; i++){
-                for(let j = 0; j < cctv_objects_dup.length; j++){
-                  if(result[i].cctv_id === cctv_objects_dup[j].cctv_id){
-                    //Match Found Assign latest car count to this cctv
-                    cctv_objects_dup[j].car_count = result[i].car_count;
-                    cctv_objects_dup[j]['color'] = this.grabColor(result[i].car_count)
-                    break;
-                  }
-                }
-              }
-                this.setState({
-			      cctv_objects: cctv_objects_dup
-			    });
-            },
-            (error) => {
-              console.log("Error updating Congestion");
+    fetch(target_url)
+      .then(res => res.json())
+      .then(
+        (result) => {
+        for(let i = 0;i < result.length; i++){
+          for(let j = 0; j < cctv_objects_dup.length; j++){
+            if(result[i].cctv_id === cctv_objects_dup[j].cctv_id){
+              //Match Found Assign latest car count to this cctv
+              cctv_objects_dup[j].car_count = result[i].car_count;
+              cctv_objects_dup[j]['color'] = this.grabColor(result[i].car_count)
+
+              break;
             }
-          );
+          }
+        }
+        this.setState({
+		      cctv_objects: cctv_objects_dup
+		    });
+      },
+      (error) => {
+        console.log("Error updating Congestion");
+      }
+    );
 
   }
   onMarkerClick = (props, marker) => {
@@ -317,8 +315,7 @@ class HomepageMap extends Component{
         activeMarker: null,
         showingInfoWindow: false,
         image_path: null,
-      })
-      console.log(this.state.showingInfoWindow)
+      });
     }
   };
 
@@ -340,10 +337,10 @@ class HomepageMap extends Component{
   }
   renderMap(){
     var icon_image = process.env.PUBLIC_URL + '/camera_icon3.png';
-
     var cctvs = this.state.cctvs.map(
       (d) =>
         <Marker
+          key={d.id}
           icon={icon_image}
           name = {d.id}
           onClick = {this.onMarkerClick}
@@ -358,6 +355,7 @@ class HomepageMap extends Component{
     );
     //prev_polyline
 
+    var prev_congestion_lines = null;
     var prev_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
             <Polyline
@@ -421,35 +419,33 @@ class HomepageMap extends Component{
 
   // Renders the Marker Window
   renderTable(){
-    var content = []
+    var content = null;
     var file_name = this.state.image_path;
     var car_count = 0;
     for(let i=0;i<this.state.cctv_objects.length;i++){
-      if(this.state.cctv_objects[i].cctv_id == this.state.selectedPlace.name){
+      if(this.state.cctv_objects[i].cctv_id === this.state.selectedPlace.name){
         car_count = this.state.cctv_objects[i].car_count;
         break;
       }
     }
     if (this.state.showingInfoWindow !== false) {
-      content.push(
+      content =
         <div className="row" style={{'padding': '35px'}}>
           <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
-          <Canvas url={file_name}/>
+          <Canvas key={file_name} url={file_name}/>
           
           <div>
             <span style={{"color":"white",fontSize:"20px"}}> Lat : {this.state.selectedPlace.lat} <br></br>Long: {this.state.selectedPlace.long}</span>
             <p style={{"color":"white",fontSize:"20px"}}> Route : {this.state.selectedPlace.route} <br></br>CCTV ID : {this.state.selectedPlace.name}</p>
-            <p style={{"color":"white",fontSize:"20px"}}> Cars Last Counted in Frame : {car_count}  </p>
+            <p style={{"color":"white",fontSize:"20px"}}>Objects of interest: {car_count}  </p>
           </div>
-        </div>
-      );
+        </div>;
     }else{
-      content.push(
+      content =
         <div className="row" style={{'padding': '35px'}}>
           <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
           <p style={{"color":"white", "margin": "auto"}}>Click on a cctv to view its most recent image.</p> 
-        </div>
-      );
+        </div>;
     }
     return content;
   }
