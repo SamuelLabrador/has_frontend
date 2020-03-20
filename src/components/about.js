@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Canvas from './canvas.js'
 
 class ContactInfo extends Component{
 	constructor(props){
@@ -61,8 +62,7 @@ class About extends Component{
 
 					<p className="text-justify">
 						If you would like to know more about this project feel free to contact us below.
-					</p>
-
+					</p>	
 					<h1 className="text-center">The Team</h1>
 
 					<div className="row">

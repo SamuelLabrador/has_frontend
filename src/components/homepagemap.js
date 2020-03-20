@@ -35,7 +35,7 @@ class HomepageMap extends Component{
       showingInfoWindow : false,
       selectedPlace: {},
       activeMarker: {},
-      image_path : [],
+      image_path : null,
     };
     this.update_congestion_lines = this.update_congestion_lines.bind(this);
     this.grabColor = this.grabColor.bind(this);
@@ -294,8 +294,6 @@ class HomepageMap extends Component{
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
-          //console.log(result.results[0].file_name)
           path.push(result.results[0].file_name)
           this.setState({
             activeMarker: marker,
@@ -307,28 +305,11 @@ class HomepageMap extends Component{
       )
   };
 
-  onMouseoverMarker= (props, marker, e) => {
-    // this.setState({
-    //   activeMarker: marker,
-    //   selectedPlace: props,
-    //   showingInfoWindow: true
-    // })
-    // console.log(this.state.showingInfoWindow)
-  };
-
-  onMouseoutMarker= (props, marker, e) => {
-    // this.setState({
-    //   activeMarker: null,
-    //   showingInfoWindow: false
-    // })
-    // console.log(this.state.showingInfoWindow)
-  };
-
-  onInfoWindowClose = () =>
-    this.setState({
-      activeMarker: null,
-      showingInfoWindow: false
-    });
+  // onInfoWindowClose = () =>
+  //   this.setState({
+  //     activeMarker: null,
+  //     showingInfoWindow: false
+  //   });
 
   onMapClicked = (mapProps,map) => {
     if (this.state.showingInfoWindow){
@@ -438,14 +419,10 @@ class HomepageMap extends Component{
     );
   }
 
-  drawBoundingBox(canvas, x_min, y_min, x_max, y_max){
-
-  }
-
   // Renders the Marker Window
   renderTable(){
     var content = []
-    var path = "http://highwayanalytics.us/image/" + this.state.image_path;
+    var file_name = this.state.image_path;
     var car_count = 0;
     for(let i=0;i<this.state.cctv_objects.length;i++){
       if(this.state.cctv_objects[i].cctv_id == this.state.selectedPlace.name){
@@ -457,7 +434,7 @@ class HomepageMap extends Component{
       content.push(
         <div className="row" style={{'padding': '35px'}}>
           <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
-          <Canvas url={path}/>
+          <Canvas url={file_name}/>
           
           <div>
             <span style={{"color":"white",fontSize:"20px"}}> Lat : {this.state.selectedPlace.lat} <br></br>Long: {this.state.selectedPlace.long}</span>
