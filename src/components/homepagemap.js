@@ -246,8 +246,6 @@ class HomepageMap extends Component{
       ()=> this.update_congestion_lines(),
       600000
     );
-
-
   }
 
   componentWillUnmount(){
@@ -454,16 +452,16 @@ class HomepageMap extends Component{
     var map = this.renderMap();
     var table = this.renderTable();
     return(
-      <div>
+      <div className="container-fluid">
         <div className="row" style={{"padding": "10px", "backgroundColor": "rgb(35, 41, 49)"}}>
         </div>
         <div className="row" style={{"backgroundColor": "rgb(35, 41, 49)"}}>
-          <div className="col-9">
+          <div className="col-xs-12 col-sm-6 col-lg-9" style={{"overflow": "hidden"}}>
             {map}
           </div>
-          <div className="col-3">
+          <div className="col-xs-12 col-sm-6 col-lg-3">
             <div style={{"padding":"0,0,0,0"}}className="container-fluid bg-dark">
-                <VehicleCounter/>
+              <VehicleCounter/>
             	{table}
             </div>
           </div>
