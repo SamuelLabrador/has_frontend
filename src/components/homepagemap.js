@@ -456,10 +456,10 @@ class HomepageMap extends Component{
         <div className="row" style={{"padding": "10px", "backgroundColor": "rgb(35, 41, 49)"}}>
         </div>
         <div className="row" style={{"backgroundColor": "rgb(35, 41, 49)"}}>
-          <div className="col-xs-12 col-sm-6 col-lg-9" style={{"overflow": "hidden"}}>
+          <div className="col-xs-12 col-sm-12 col-lg-9" style={{"overflow": "hidden"}}>
             {map}
           </div>
-          <div className="col-xs-12 col-sm-6 col-lg-3">
+          <div className="col-xs-12 col-sm-12 col-lg-3">
             <div style={{"padding":"0,0,0,0"}}className="container-fluid bg-dark">
               <VehicleCounter/>
             	{table}
