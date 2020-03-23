@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
 import VehicleCounter from './vehicleCounter.js'
 import Canvas from './canvas.js'
+import './css/base.css';
+
 var count = 0
 
 class HomepageMap extends Component{
@@ -19,6 +21,7 @@ class HomepageMap extends Component{
 
   constructor(props){
     super(props);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.state = {
       error: null,
       cctvs: [],
@@ -27,6 +30,8 @@ class HomepageMap extends Component{
         lat: 33.980530,
         lng: -117.377020
       },
+      height: 0,
+      width: 0,
       style: {
         width: '100%',
         height: '100%'
@@ -39,6 +44,10 @@ class HomepageMap extends Component{
     };
     this.update_congestion_lines = this.update_congestion_lines.bind(this);
     this.grabColor = this.grabColor.bind(this);
+  }
+  
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
   componentDidMount() {
@@ -335,6 +344,7 @@ class HomepageMap extends Component{
   }
   renderMap(){
     var icon_image = process.env.PUBLIC_URL + '/camera_icon3.png';
+
     var cctvs = this.state.cctvs.map(
       (d) =>
         <Marker
@@ -409,7 +419,7 @@ class HomepageMap extends Component{
         </Map>
 
     return (
-      <div style={{ height: '92vh', width: '100%' }}>
+      <div style={{height: "91vh", width: '100%'}}>
         {map}
       </div>
     );
@@ -453,15 +463,13 @@ class HomepageMap extends Component{
     var table = this.renderTable();
     return(
       <div className="container-fluid">
-        <div className="row" style={{"padding": "10px", "backgroundColor": "rgb(35, 41, 49)"}}>
-        </div>
-        <div className="row" style={{"backgroundColor": "rgb(35, 41, 49)"}}>
-          <div className="col-xs-12 col-sm-12 col-lg-9" style={{"overflow": "hidden"}}>
+
+        <div className="row " style={{"backgroundColor": "rgb(35, 41, 49)", "padding":"15px", "padding-top":"15px"}}>
+          <div className="col-xs-12 col-sm-12 col-lg-9" style={{"padding": "0", "overflow": "hidden"}}>
             {map}
           </div>
           <div className="col-xs-12 col-sm-12 col-lg-3">
-            <div style={{"padding":"0,0,0,0"}}className="container-fluid bg-dark">
-              <VehicleCounter/>
+            <div style={{"padding":"0,0,0,0"}} className="container-fluid bg-dark">
             	{table}
             </div>
           </div>

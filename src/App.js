@@ -10,10 +10,10 @@ function App() {
     <div className="App">
     	<div style={{"backgroundColor": "rgb(35, 41, 49)"}}>
       		<Header/>
-      		<Footer/>
       	</div>      
     </div>
   );
 }
+      		// <Footer/>
 
 export default App;
