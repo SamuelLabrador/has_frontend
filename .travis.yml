@@ -1,16 +1,17 @@
-services:
-  - docker
+language: javascript
+#services:
+#  - docker
 
-addons:
-  apt:
-    packages:
-      - docker-ce
+#addons:
+#  apt:
+#    packages:
+#      - docker-ce
 
-before_script:
-  - touch dev-variables.env
-  - echo REACT_APP_GOOGLE_MAP_KEY=null > dev-variables.env
+#before_script:
+#  - touch dev-variables.env
+#  - echo REACT_APP_GOOGLE_MAP_KEY=null > dev-variables.env
 
-script:
-  - docker-compose build 
-  - docker-compose run frontend npm run test:ci
+#script:
+#  - docker-compose build 
+#  - docker-compose run frontend npm run test:ci
 
