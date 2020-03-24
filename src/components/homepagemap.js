@@ -291,6 +291,7 @@ class HomepageMap extends Component{
     );
 
   }
+
   onMarkerClick = (props, marker) => {
     var latest_image = "http://highwayanalytics.us/api/search/?search=" + props.name;
     var path = [];
@@ -309,12 +310,6 @@ class HomepageMap extends Component{
         }
       )
   };
-
-  // onInfoWindowClose = () =>
-  //   this.setState({
-  //     activeMarker: null,
-  //     showingInfoWindow: false
-  //   });
 
   onMapClicked = (mapProps,map) => {
     if (this.state.showingInfoWindow){
@@ -342,6 +337,7 @@ class HomepageMap extends Component{
       return 'red';
     }
   }
+
   renderMap(){
     var icon_image = process.env.PUBLIC_URL + '/camera_icon3.png';
 
@@ -441,17 +437,11 @@ class HomepageMap extends Component{
         <div className="row" style={{'padding': '35px'}}>
           <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
           <Canvas key={file_name} url={file_name}/>
-          
-          <div>
-            <span style={{"color":"white",fontSize:"20px"}}> Lat : {this.state.selectedPlace.lat} <br></br>Long: {this.state.selectedPlace.long}</span>
-            <p style={{"color":"white",fontSize:"20px"}}> Route : {this.state.selectedPlace.route} <br></br>CCTV ID : {this.state.selectedPlace.name}</p>
-            <p style={{"color":"white",fontSize:"20px"}}>Objects of interest: {car_count}  </p>
-          </div>
-        </div>;
+        </div>
     }else{
       content =
         <div className="row" style={{'padding': '35px'}}>
-          <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
+          <h2 style={{"color":"white", "margin": "auto"}}>Marker Information</h2>
           <p style={{"color":"white", "margin": "auto"}}>Click on a cctv to view its most recent image.</p> 
         </div>;
     }
@@ -463,7 +453,6 @@ class HomepageMap extends Component{
     var table = this.renderTable();
     return(
       <div className="container-fluid">
-
         <div className="row " style={{"backgroundColor": "rgb(35, 41, 49)", "padding":"15px", "padding-top":"15px"}}>
           <div className="col-xs-12 col-sm-12 col-lg-9" style={{"padding": "0", "overflow": "hidden"}}>
             {map}

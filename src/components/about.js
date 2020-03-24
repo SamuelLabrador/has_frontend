@@ -56,7 +56,7 @@ class About extends Component{
 							<p className="text-justify">
 								Highway Analytics System (HAS) is a platform that collects data on 
 								California highways in San Bernardino and Riverside county. Data is sourced
-								from current <b>CCTV images</b>. This is different from other platforms such 
+								from current <b>public CCTV images</b>. This is different from other platforms such 
 								as Google Maps and Waze as their data comes from their user's location.
 							</p>
 
@@ -82,14 +82,14 @@ class About extends Component{
 						<div className="col-sm-6 col-md-12 col-lg-4">
 							<h4 className="text-center">Samuel Labrador</h4>
 							<ContactInfo
-								email="samuel.labrador.cs@gmail.com"
+								email="samuel.labrador.cs@gmail[DOT]com"
 								linkedin="https://www.linkedin.com/in/samuellabrador/"
 							/>
 						</div>
 						<div className="col-sm-6 col-md-12 col-lg-4">
 							<h4 className="text-center">Winson Bi</h4>
 							<ContactInfo
-								email={null}
+								email="wbi002@ucr[DOT]edu"
 								linkedin="https://www.linkedin.com/in/winson-bi-09917617a/"
 							/>
 						</div>	
