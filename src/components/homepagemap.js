@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
-import VehicleCounter from './vehicleCounter.js'
+// import VehicleCounter from './vehicleCounter.js'
 import Canvas from './canvas.js'
 import './css/base.css';
 
@@ -360,7 +360,7 @@ class HomepageMap extends Component{
     //prev_polyline
 
     var prev_congestion_lines = null;
-    var prev_congestion_lines = this.state.cctv_objects.map(
+    prev_congestion_lines = this.state.cctv_objects.map(
       (object)=>(
             <Polyline
               key= {object.cctv.latitude.toString() + object.cctv.longitude.toString() + count.toString()}
@@ -425,13 +425,6 @@ class HomepageMap extends Component{
   renderTable(){
     var content = null;
     var file_name = this.state.image_path;
-    var car_count = 0;
-    for(let i=0;i<this.state.cctv_objects.length;i++){
-      if(this.state.cctv_objects[i].cctv_id === this.state.selectedPlace.name){
-        car_count = this.state.cctv_objects[i].car_count;
-        break;
-      }
-    }
     if (this.state.showingInfoWindow !== false) {
       content =
         <div className="row" style={{'padding': '35px'}}>

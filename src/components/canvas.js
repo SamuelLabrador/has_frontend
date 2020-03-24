@@ -24,10 +24,8 @@ class Canvas extends Component{
 				var width = canvas.width.toFixed(4);
 				var height = canvas.height.toFixed(4);
 				var boxes = result['results'];
-				var state_boxes = []
 				for(var i = 0; i < result['count']; i++){
 					var entry = boxes[i];
-					var shift = 10
 					var x_min = entry['x_min'] * width;
 					var y_min = entry['y_min'] * height;
 					var x_max = entry['x_max'] * width;

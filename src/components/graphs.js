@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, Hint, makeWidthFlexible} from 'react-vis';
+import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, makeWidthFlexible} from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
 import {curveCatmullRom} from 'd3-shape';
 import PropagateLoader from "react-spinners/PropagateLoader";
@@ -68,7 +68,6 @@ class VehiclesVsFreeway extends Component{
 
 		var month = temp.getMonth();
 		var date = temp.getDate();
-		var hours = temp.getHours();
 
 		var timeString = hours + ':00';
 		if(hours === 0){
@@ -94,7 +93,6 @@ class VehiclesVsFreeway extends Component{
 
 		var route_data = [];
 		var data = null;
-		var xLabels = []
 		var isLoading = false;
 		var title = <h2><b><u>{this.state.active_route}</u></b> Usage vs Time</h2>
 

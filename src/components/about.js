@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import VehiclesVsFreeway from './graphs.js';
 
 class ContactInfo extends Component{
 	constructor(props){

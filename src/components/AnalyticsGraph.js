@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, RadialChart, DiscreteColorLegend, Hint} from 'react-vis';
+import {RadialChart, DiscreteColorLegend, Hint} from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
-import {curveCatmullRom} from 'd3-shape';
 import VehiclesVsFreeway from './graphs.js';
 
 class AnalyticsGraph extends Component{
