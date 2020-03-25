@@ -61,7 +61,7 @@ class VehiclesVsFreeway extends Component{
 		const monthNames = ["January", "February", "March", "April", "May", "June",
 			"July", "August", "September", "October", "November", "December"
 		];
-
+		console.log(delta);
 		var temp = new Date();
 		var hours = temp.getHours();
 		temp.setHours(hours - 24 + delta)
@@ -69,10 +69,12 @@ class VehiclesVsFreeway extends Component{
 		var month = temp.getMonth();
 		var date = temp.getDate();
 
-		var timeString = hours + ':00';
-		if(hours === 0){
+		var timeString = temp.getHours() + ':00';
+		console.log()
+		if(timeString === '0:00'){
 			timeString = monthNames[month].substring(0, 3) + " " + date;
 		}
+		console.log(timeString);
 		return timeString;		
 	}
 
@@ -101,6 +103,7 @@ class VehiclesVsFreeway extends Component{
 			data = this.state.data[this.state.active_route];
 			var size = data.length;
 			for(var i = 0; i < size; i++){
+				console.log(i);
 				route_data.push({
 					'x': i,
 					'y': data[i]
@@ -139,7 +142,7 @@ class VehiclesVsFreeway extends Component{
 						<VerticalGridLines style={{stroke: '#B7E9ED'}} />
 						<XAxis
 							title="Time"
-							tickFormat={v => this.toLabel(v)}
+							tickFormat={(x_tick) => this.toLabel(x_tick)}
 							style={{
 								line: {stroke: '#ADDDE1'},
 								ticks: {stroke: '#ADDDE1'},
