@@ -428,13 +428,13 @@ class HomepageMap extends Component{
     if (this.state.showingInfoWindow !== false) {
       content =
         <div className="row" style={{'padding': '35px'}}>
-          <h2 style={{"color":"white", "margin": "auto"}}> Marker Information</h2>
+          <h2 style={{"color":"white", "margin": "auto"}}> CCTV Information</h2>
           <Canvas key={file_name} url={file_name}/>
         </div>
     }else{
       content =
         <div className="row" style={{'padding': '35px'}}>
-          <h2 style={{"color":"white", "margin": "auto"}}>Marker Information</h2>
+          <h2 style={{"color":"white", "margin": "auto"}}>CCTV Information</h2>
           <p style={{"color":"white", "margin": "auto"}}>Click on a cctv to view its most recent image.</p> 
         </div>;
     }

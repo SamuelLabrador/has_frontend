@@ -76,41 +76,50 @@ class Canvas extends Component{
 		}
 
 		return (
-			<div className="container-fluid" style={{'color':'white'}}>
-				<canvas ref="canvas" width="320px" height="260px"/>
-				<img ref="image" alt="recent_image" src={"http://highwayanalytics.us/image/" + this.props.url} style={{"display": "none"}}/>
-				<div className='row'>
-					<div className='col text-center' >
-						<table 
-							class="table" 
-							style={{
-								"margin":"auto", 
-								"color":"white",
-							}}
-						>
-							<tr>
-								<td>Objects of Interest</td>
-								<td>{count}</td>
-							</tr>
-							<tr>
-								<td>Possible amount of cars</td>
-								<td>{car_count}</td>
-							</tr>
-							<tr>
-								<td>Possible amount of trucks</td>
-								<td>{truck_count}</td>
-							</tr>
+			<div className="container" style={{'color':'white', 'padding-top': '24px'}}>
+				<div className="row">
+					<div className="col-xs-12 col-md-6 col-lg-12">
+						<canvas ref="canvas" width="320px" height="260px"/>
+					</div>
+					<img ref="image" alt="recent_image" src={"http://highwayanalytics.us/image/" + this.props.url} style={{"display": "none"}}/>
+					<div className="col-xs-12 col-md-6 col-lg-12 ">
+						<table className="table" style={{"color":"white"}} >
+							<tbody>
+								<tr>
+									<td>
+										Objects of Interest 
+									</td>
+									<td>
+										{count}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Possible amount of cars
+									</td>
+									<td> 
+										{car_count}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Possible amount of trucks
+									</td>
+									<td>
+										{truck_count}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div className='row'>
+						<table>
+							<tbody>
+								{vehicles}
+							</tbody>
 						</table>
 					</div>
 				</div>
-				<div className='row'>
-					<table>
-						<tbody>
-							{vehicles}
-						</tbody>
-					</table>
-				</div>
-
 			</div>
 		);
 	}
