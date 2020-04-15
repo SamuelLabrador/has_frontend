@@ -55,7 +55,6 @@ class Canvas extends Component{
 
 
 	render(){		
-		console.log(this.state.data);
 		var vehicles = null;
 		var count = null;
 		var car_count = 0;

@@ -294,19 +294,19 @@ class HomepageMap extends Component{
   }
 
   onMarkerClick = (props, marker) => {
-    console.log(props.name);
     var latest_image = "http://highwayanalytics.us/api/vehicle/?cctv=" + props.name;
     
-
     fetch(latest_image)
-      .then(res => res.json())
-      .then(
-        (result) => {
+    .then(res => res.json())
+    .then(
+      (result) => {
+        
+          var photo_id = (result['results'][0]['photo']);
           this.setState({
             activeMarker: marker,
             selectedPlace: props,
             showingInfoWindow: true,
-            photo_id : result.results[0].photo,
+            photo_id : photo_id,
           });
         }
       )
@@ -317,7 +317,7 @@ class HomepageMap extends Component{
       this.setState({
         activeMarker: null,
         showingInfoWindow: false,
-        image_path: null,
+        photo_id: null,
       });
     }
   };
@@ -430,7 +430,7 @@ class HomepageMap extends Component{
       content =
         <div className="row" style={{'padding': '35px'}}>
           <h2 style={{"color":"white", "margin": "auto"}}> CCTV Information</h2>
-          <Canvas key={this.state.image_path} photo_id={this.state.image_path}/>
+          <Canvas key={this.state.photo_id} photo_id={this.state.photo_id}/>
         </div>
     }else{
       content =
