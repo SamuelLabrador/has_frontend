@@ -16,7 +16,7 @@ class Canvas extends Component{
 
 		img.onload = () => {
 			ctx.drawImage(img, 0, 0);
-			var url = "http://highwayanalytics.us/api/vehicle?search=" + this.props.url; 
+			var url = "http://highwayanalytics.us/api/vehicle?photo=" + this.props.photo_id; 
 			fetch(url)
 			.then(res => res.json())
 			.then(
@@ -76,12 +76,12 @@ class Canvas extends Component{
 		}
 
 		return (
-			<div className="container" style={{'color':'white', 'padding-top': '24px'}}>
+			<div className="container" style={{'color':'white', 'paddingTop': '24px'}}>
 				<div className="row">
 					<div className="col-xs-12 col-md-6 col-lg-12">
 						<canvas ref="canvas" width="320px" height="260px"/>
 					</div>
-					<img ref="image" alt="recent_image" src={"http://highwayanalytics.us/image/" + this.props.url} style={{"display": "none"}}/>
+					<img ref="image" alt="recent_image" src={"http://highwayanalytics.us/image/" + this.props.photo_id} style={{"display": "none"}}/>
 					<div className="col-xs-12 col-md-6 col-lg-12 ">
 						<table className="table" style={{"color":"white"}} >
 							<tbody>

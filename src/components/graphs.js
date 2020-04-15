@@ -35,7 +35,7 @@ class VehiclesVsFreeway extends Component{
 	}
 
 	changeGraph(element, route){
-		console.log(route);
+		
 		this.setState({
 			'active_route': route
 		});
@@ -61,7 +61,7 @@ class VehiclesVsFreeway extends Component{
 		const monthNames = ["January", "February", "March", "April", "May", "June",
 			"July", "August", "September", "October", "November", "December"
 		];
-		console.log(delta);
+		
 		var temp = new Date();
 		var hours = temp.getHours();
 		temp.setHours(hours - 24 + delta)
@@ -70,11 +70,11 @@ class VehiclesVsFreeway extends Component{
 		var date = temp.getDate();
 
 		var timeString = temp.getHours() + ':00';
-		console.log()
+		
 		if(timeString === '0:00'){
 			timeString = monthNames[month].substring(0, 3) + " " + date;
 		}
-		console.log(timeString);
+		
 		return timeString;		
 	}
 
@@ -103,7 +103,6 @@ class VehiclesVsFreeway extends Component{
 			data = this.state.data[this.state.active_route];
 			var size = data.length;
 			for(var i = 0; i < size; i++){
-				console.log(i);
 				route_data.push({
 					'x': i,
 					'y': data[i]

@@ -6,7 +6,7 @@ class Analytics extends Component{
 
 	render(){
 		return (
-			<div style={{"background-color":"#232931","height":"100vh", "text-align": "center"}}>
+			<div style={{"backgroundColor":"#232931","height":"100vh", "textAlign": "center"}}>
 				<h1 style={{"color":"white"}} >Analytics</h1>
 				<AnalyticsGraph/>
 			</div>

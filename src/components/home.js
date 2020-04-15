@@ -7,7 +7,7 @@ class Home extends Component{
 
 	render(){
 		return (
-			<div class="d-flex flex-column">
+			<div className="d-flex flex-column">
 				<HomepageMap/>
 			</div>			
 		);

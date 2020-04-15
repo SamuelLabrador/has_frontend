@@ -25,14 +25,11 @@ class AnalyticsGraph extends Component{
     .then(res => res.json())
     .then(
         (result) => {
-          console.log(result)
           var res = {}
 
           for(var route in result){
             res[route] = result[route].length;
           }
-
-          console.log(res)
 
           this.setState({
             cctvPerRoute : res,
@@ -40,7 +37,7 @@ class AnalyticsGraph extends Component{
         },
         (error) => {
             console.log("ERROR FETCHING CCTV per Route API");
-    });
+      });
   }
 
   getrouteCount(){
@@ -49,7 +46,6 @@ class AnalyticsGraph extends Component{
     .then(res => res.json())
     .then(
         (result) => {
-          console.log(result)
           this.setState({
             routeVehicle : result,
           });
@@ -318,13 +314,13 @@ class AnalyticsGraph extends Component{
     }
 
     return(
-      <div  style={{"background-color":"#232931"}}>
+      <div  style={{"backgroundColor":"#232931"}}>
         
         <VehiclesVsFreeway data={data}/>
         
         <div className="container">
           
-          <div className="row" style={{"background-color":"#393e46"}}>
+          <div className="row" style={{"backgroundColor":"#393e46"}}>
             <div className="col-xs-6 col-sm-6 col-lg-6" style={{"width":"700px"}}>
               {top5}
             </div>
@@ -333,10 +329,10 @@ class AnalyticsGraph extends Component{
             </div>
           </div>
 
-          <div style={{"margin-top":"10px","margin-bottom":"10px"}}>
+          <div style={{"marginTop":"10px","marginBottom":"10px"}}>
           </div>
 
-          <div className="row" style={{"background-color":"#393e46"}}>
+          <div className="row" style={{"backgroundColor":"#393e46"}}>
             <div className="col-xs-6 col-sm-6 col-lg-6">
               <h2 style={{color:"white", marginTop:'40px'}}> Vehicle Distribution </h2>
               <div style={{"margin":"auto"}}>

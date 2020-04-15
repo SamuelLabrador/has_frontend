@@ -47,8 +47,8 @@ class ContactInfo extends Component{
 class About extends Component{
 	render(){
 		return (
-			<div className="bg-dark" style={{"background-color":"#232931","height":"100vh", "text-align": "center"}}>
-				<div className="container" style={{"background-color":"#232931"}}> 
+			<div className="bg-dark" style={{"backgroundColor":"#232931","height":"100vh", "textAlign": "center"}}>
+				<div className="container" style={{"backgroundColor":"#232931"}}> 
 					<div className="row">
 						<div className="col-md" style={{"color":"white"}}>
 							<h1 style={{"color":"white"}} >About</h1>
