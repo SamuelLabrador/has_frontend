@@ -1,12 +1,16 @@
 import React from 'react';
 import Header from './components/header'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import Footer from './components/footer'
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-material-design/dist/css/bootstrap-material-design.min.css';
 // import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <Header/>      
+    	<div style={{"backgroundColor": "rgb(35, 41, 49)"}}>
+      		<Header/>
+      	</div>      
     </div>
   );
 }

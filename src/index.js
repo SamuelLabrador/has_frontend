@@ -3,12 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from 'history';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-161761065-1');
+
+var history = createBrowserHistory();
+console.log(window.ga);
+
+history.listen((location) => {
+	console.log('sending new location', location.pathname + location.search)
+	ReactGA.pageview(window.location.pathname + window.location.search);
+});
 
 ReactDOM.render(
-	<BrowserRouter>
+	<Router history={history}>
 		<App />
-	</BrowserRouter>, 
+	</Router>, 
 	document.getElementById('root')
 );
 

@@ -55,7 +55,7 @@ class Cameras extends Component{
   			}
   			else{
   				row.push(
-  					<div className="col" style={{'text-align': 'center'}}>
+  					<div className="col" style={{'textAlign': 'center'}}>
   						<h5 style={{color:"white"}}>{tv.route} ({tv.latitude}, {tv.longitude})</h5>
   						<img alt="cctv" src={tv.image_url} style={{width:"320px", height:"260px"}}/>
   					</div>
@@ -70,7 +70,7 @@ class Cameras extends Component{
 		var images = this.renderImages();
 
 		return (
-			<div style={{backgroundColor:"#232931"}}>
+			<div style={{backgroundColor:"#232931", "textAlign" : "center"}}>
 				<h1 style={{color:"white"}}>Cameras</h1>
 
 				<div className="container-fluid">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, RadialChart, DiscreteColorLegend, Hint} from 'react-vis';
+import {RadialChart, DiscreteColorLegend, Hint} from 'react-vis';
 import '../../node_modules/react-vis/dist/style.css';
-import {curveCatmullRom} from 'd3-shape';
+import VehiclesVsFreeway from './graphs.js';
 
 class AnalyticsGraph extends Component{
 
@@ -13,9 +13,31 @@ class AnalyticsGraph extends Component{
       series : [],
       cctvs: [],
       vehiclesPerCCTV: [],
-      activeRoute : 0
+      activeRoute : 0,
+      cctvPerRoute : {}
     };
     this.getrouteCount()
+  }
+
+  gettotalCCTVsPerRoute(){
+    var url = 'http://highwayanalytics.us/api/graph';
+    fetch(url)
+    .then(res => res.json())
+    .then(
+        (result) => {
+          var res = {}
+
+          for(var route in result){
+            res[route] = result[route].length;
+          }
+
+          this.setState({
+            cctvPerRoute : res,
+          });
+        },
+        (error) => {
+            console.log("ERROR FETCHING CCTV per Route API");
+      });
   }
 
   getrouteCount(){
@@ -24,38 +46,12 @@ class AnalyticsGraph extends Component{
     .then(res => res.json())
     .then(
         (result) => {
-          console.log(result)
           this.setState({
             routeVehicle : result,
           });
         },
         (error) => {
             console.log("ERROR FETCHING COUNT API");
-    });
-  }
-
-  getrouteCount_2(){
-    var url = 'http://highwayanalytics.us/api/vehiclesPerHour';
-    fetch(url)
-    .then(res => res.json())
-    .then(
-        (result) => {
-          var routes = []
-
-          for(var route in result){
-            routes.push({
-              title : route,
-              //disabled : true,
-              data : result[route]
-            })
-          }
-
-          this.setState({
-            series : routes,
-          });
-        },
-        (error) => {
-            console.log("ERROR FETCHING VEHICLE PER HOUR API");
     });
   }
 
@@ -78,7 +74,6 @@ class AnalyticsGraph extends Component{
 	    });
     },
     (error) => {
-        //console.log(error);
         this.setState({
         	cctvs: [],
           error: true
@@ -93,21 +88,18 @@ class AnalyticsGraph extends Component{
     .then(res => res.json())
     .then(
       (result) => {
-        //console.log(result)
         this.setState({
           vehiclesPerCCTV : result,
         });
       }, (error) => {
-          console.log("ERROR FETCHING VEHICLE PER CCTV API");
+        console.log("ERROR FETCHING VEHICLE PER CCTV API");
     });
   }
 
   componentDidMount() {
-    //this.getCCTV();
-    this.getrouteCount_2();
+    this.gettotalCCTVsPerRoute();
     this.getVehiclesPerCCTV();
     setInterval(async () => {
-      //this.getrouteCount_2();
       this.getrouteCount();
       this.getVehiclesPerCCTV();
     }, 900000);
@@ -115,12 +107,15 @@ class AnalyticsGraph extends Component{
 
   renderTable(){
     var orderedrouteVehicle = this.state.routeVehicle;
+    var cctvPerRoute = this.state.cctvPerRoute;
     var sortable = [];
     var route = []
     var count = []
 
     for (var vehicle in orderedrouteVehicle) {
-        sortable.push([vehicle, orderedrouteVehicle[vehicle]]);
+      if(vehicle !== "SR-138" && vehicle !== "SR-18"){
+        sortable.push([vehicle, parseInt(orderedrouteVehicle[vehicle]/cctvPerRoute[vehicle],10) ]);
+      }
     }
 
     sortable.sort(function(a, b){
@@ -135,7 +130,7 @@ class AnalyticsGraph extends Component{
     })
 
     return(
-      <div style={{ height: '15%', width: '85%', padding: '20px' }} >
+      <div style={{marginTop : '40px'}} >
         <h2 style={{color: "white"}}> Top 5 Congested Freeways </h2>
         <table className="table table-bordered table-hover" id="myTable">
           <thead>
@@ -207,7 +202,7 @@ class AnalyticsGraph extends Component{
     })
 
     return(
-      <div style={{ marginLeft : '40px', marginTop : '40px'}}>
+      <div style={{marginTop : '40px'}}>
             <h2 style={{color:"white"}}> Top 5 Congested CCTVs </h2>
             <table className="table table-bordered table-hover" id="myTable">
               <thead>
@@ -257,54 +252,6 @@ class AnalyticsGraph extends Component{
     );
   }
 
-  _updateButtonClicked0(){
-    var count = 0;
-    this.setState({
-      activeRoute : count
-    })
-  }
-  _updateButtonClicked1(){
-    var count = 1;
-    this.setState({
-      activeRoute : count
-    })
-  }
-  _updateButtonClicked2(){
-    var count = 2;
-    this.setState({
-      activeRoute : count
-    })
-  }
-  _updateButtonClicked3(){
-    var count = 3;
-    this.setState({
-      activeRoute : count
-    })
-  }
-  _updateButtonClicked4(){
-    var count = 4;
-    this.setState({
-      activeRoute : count
-    })
-  }
-  _updateButtonClicked5(){
-    var count = 5;
-    this.setState({
-      activeRoute : count
-    })
-  }
-  _updateButtonClicked6(){
-    var count = 6;
-    this.setState({
-      activeRoute : count
-    })
-  }
-  _updateButtonClicked7(){
-    var count = 7;
-    this.setState({
-      activeRoute : count
-    })
-  }
 	render(){
     const {value} = this.state;
     var top5 = this.renderTable();
@@ -367,118 +314,52 @@ class AnalyticsGraph extends Component{
     }
 
     return(
-      <div  style={{"background-color":"#232931"}}>
+      <div  style={{"backgroundColor":"#232931"}}>
+        
+        <VehiclesVsFreeway data={data}/>
+        
         <div className="container">
-          <div className="row" style={{"background-color":"#393e46","height":"450px"}}>
-            <div className="col-1">
-              <div style={{"margin-top":"30px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked0()}}>
-                    I-215
-                  </button>
-              </div>
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info active" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked1()}}>
-                    I-10
-                  </button>
-              </div>
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info active" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked2()}}>
-                    I-210
-                  </button>
-              </div>
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info active" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked3()}}>
-                    I-15
-                  </button>
-              </div>
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info active" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked4()}}>
-                    SR-138
-                  </button>
-              </div>
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info active" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked5()}}>
-                    SR-18
-                  </button>
-              </div>
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info acitve" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked6()}}>
-                    SR-91
-                  </button>
-              </div>
-              <div style={{"margin-top":"5px","margin-bottom":"5px"}}>
-                  <button className="click-me btn btn-info active" style={{"width":"80px"}} onClick={() => {this._updateButtonClicked7()}}>
-                    SR-60
-                  </button>
-              </div>
-            </div>
-            <div className="col-7" style={{"width":"100%"}}>
-              <section>
-                <div className="section=header">
-                  <h3
-                    className="section-title"
-                    style={{"color":"white"}}
-                  >
-                    { this.state.series && this.state.series.length ? series[activeRoute].title : "Route Name" }
-                  </h3>
-                </div>
-              </section>
-              <XYPlot width={650} height={350} style={{"background-color":"white"}}>
-                <HorizontalGridLines style={{stroke: '#B7E9ED'}} />
-                <VerticalGridLines style={{stroke: '#B7E9ED'}} />
-                <XAxis
-                  title="Hours"
-                  style={{
-                    line: {stroke: '#ADDDE1'},
-                    ticks: {stroke: '#ADDDE1'},
-                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-                  }}
-                />
-                <YAxis title="Vehicles" />
-                <LineSeries
-                  className="series"
-                  data = {data}
-                  curve={curveCatmullRom.alpha(0.5)}
-                />
-              </XYPlot>
-            </div>
-            <div className="col-4" style={{"width":"700px"}}>
+          
+          <div className="row" style={{"backgroundColor":"#393e46"}}>
+            <div className="col-xs-6 col-sm-6 col-lg-6" style={{"width":"700px"}}>
               {top5}
             </div>
-          </div>
-          <div style={{"margin-top":"10px","margin-bottom":"10px"}}>
-          </div>
-          <div className="row" style={{"background-color":"#393e46"}}>
-            <div className="col-sm">
+            <div className="col-xs-6 col-sm-6 col-lg-6">
               {vehiclesPerCCTV}
             </div>
-            <div className="col-sm" style={{ marginLeft : '60px', marginTop : '40px'}}>
-              <h2 style={{color:"white"}}> Vehicle Distribution </h2>
-              <RadialChart
-                colorType='literal'
-                getAngle={d => d.count}
-                data = {radialData}
-                width = {300}
-                height = {300}
-                padAngle={0.04}
-                innerRadius={100}
-                radius={140}
-                onValueMouseOver={v => this.setState({value: v})}
-                onSeriesMouseOut={v => this.setState({value: false})}
-              >
-                {value !== false && <Hint value={value} />}
-              </RadialChart>
-            </div>
-            <div className="col-sm">
-            <h2 style={{color:"#eeeeee",marginTop:'40px', marginLeft:'20px'}}> Color Legend </h2>
-              <div className="card" style={{margin:'20px'}}>
-                <DiscreteColorLegend
-                  height={300}
-                  width={200}
-                  items={items}
-                  colors={color}
-                />
+          </div>
+
+          <div style={{"marginTop":"10px","marginBottom":"10px"}}>
+          </div>
+
+          <div className="row" style={{"backgroundColor":"#393e46"}}>
+            <div className="col-xs-6 col-sm-6 col-lg-6">
+              <h2 style={{color:"white", marginTop:'40px'}}> Vehicle Distribution </h2>
+              <div style={{"margin":"auto"}}>
+                <RadialChart
+                  colorType='literal'
+                  getAngle={d => d.count}
+                  data = {radialData}
+                  width = {300}
+                  height = {300}
+                  padAngle={0.04}
+                  innerRadius={100}
+                  radius={140}
+                >
+                  {value !== false && <Hint value={value} />}
+                </RadialChart>
               </div>
+            </div>
+            <div className="col-xs-6 col-sm-6 col-lg-6">
+              <h2 style={{color:"#eeeeee",marginTop:'40px'}}> Color Legend </h2>
+                <div className="card" style={{margin:'20px'}}>
+                  <DiscreteColorLegend
+                    height={300}
+                    width={200}
+                    items={items}
+                    colors={color}
+                  />
+                </div>
             </div>
           </div>
         </div>

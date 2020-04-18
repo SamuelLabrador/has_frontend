@@ -28,21 +28,23 @@ class VechicleCounter extends Component{
 	componentDidMount(){
 		setInterval(async () => {
 			this.getCount()
-		}, 2000);
+		}, 10000);
 	}
 
 	render(){
 		return(
 			<div>
-				<table>
-					<tr>
-						<td>
-							<p style={{"color":"white", "font-size":"25px", "padding-top":"8px"}}>Vehicles Found: </p>
-						</td>
-						<td style={{"padding-bottom":"5px"}}>
-							<FlipNumbers height={24} width={24} color="white" play numbers={this.state.count.toString()}/>
-						</td>
-					</tr>
+				<table style={{"margin": "auto"}}>
+					<tbody>
+						<tr>
+							<td>
+								<p style={{"color":"white", "fontSize":"25px", "paddingTop":"8px"}}>Vehicles Found: </p>
+							</td>
+							<td style={{"paddingBottom":"5px"}}>
+								<FlipNumbers height={24} width={24} color="white" play numbers={this.state.count.toString()}/>
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		)
