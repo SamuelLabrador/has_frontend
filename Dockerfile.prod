@@ -1,7 +1,11 @@
 # Import necessary software
 FROM node:12.14.1
+
+# PRODUCTION API KEY
 ARG REACT_APP_GOOGLE_MAP_KEY="AIzaSyCZGJUFtr1-99umev6APLRq4CS_09EDNL0"
 
+# App should listen on port 4000
+EXPOSE 4000
 
 # Create and set working directory for our source code
 RUN mkdir /frontend/src -p -v
@@ -16,3 +20,5 @@ RUN npm install
 # Run build
 RUN npm run-script build
 RUN npm install -g serve
+
+CMD serve -s build -l 4000
