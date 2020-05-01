@@ -42,7 +42,7 @@ class VehiclesVsFreeway extends Component{
 	}
 
 	componentDidMount(){
-		var url = 'http://highwayanalytics.us/api/vehiclesPerHour';
+		var url = '/api/vehiclesPerHour';
 	    fetch(url)
 	    .then(response => response.json())
 	    .then(

@@ -53,7 +53,7 @@ class HomepageMap extends Component{
 
   componentDidMount() {
     // Get CCTVS
-    var url = "http://highwayanalytics.us/api/cctv?format=json&county=Riverside,San+Bernardino";
+    var url = "/api/cctv?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
     .then(
@@ -78,7 +78,7 @@ class HomepageMap extends Component{
         })
     });
 
-    url = "http://highwayanalytics.us/api/graph?format=json&county=Riverside,San+Bernardino";
+    url = "/api/graph?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
     .then(
@@ -265,7 +265,7 @@ class HomepageMap extends Component{
     //Update Congestions Lines
     var cctv_objects_dup = Array.from(this.state.cctv_objects);
     //Go through all cameras
-    var target_url = "http://highwayanalytics.us/api/trafficData";
+    var target_url = "/api/trafficData";
 
     fetch(target_url)
       .then(res => res.json())
@@ -294,7 +294,7 @@ class HomepageMap extends Component{
   }
 
   onMarkerClick = (props, marker) => {
-    var latest_image = "http://highwayanalytics.us/api/vehicle/?cctv=" + props.name;
+    var latest_image = "/api/vehicle/?cctv=" + props.name;
     
     fetch(latest_image)
     .then(res => res.json())

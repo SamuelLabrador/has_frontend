@@ -11,7 +11,7 @@ class VechicleCounter extends Component{
 	}
 
 	getCount(){
-		var url = 'http://highwayanalytics.us/api/totalVehicle';
+		var url = '/api/totalVehicle';
 		fetch(url)
 		.then(res => res.json())
 		.then(

@@ -10,7 +10,7 @@ class Cameras extends Component{
 	}
 
 	componentDidMount() {
-	    var url = "http://highwayanalytics.us/api/cctv?format=json";
+	    var url = "/api/cctv?format=json";
 
 	    fetch(url)
 	    .then(res => res.json())

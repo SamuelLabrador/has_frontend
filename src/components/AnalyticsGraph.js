@@ -20,7 +20,7 @@ class AnalyticsGraph extends Component{
   }
 
   gettotalCCTVsPerRoute(){
-    var url = 'http://highwayanalytics.us/api/graph';
+    var url = '/api/graph';
     fetch(url)
     .then(res => res.json())
     .then(
@@ -41,7 +41,7 @@ class AnalyticsGraph extends Component{
   }
 
   getrouteCount(){
-    var url = 'http://highwayanalytics.us/api/routeVehicleCount';
+    var url = '/api/routeVehicleCount';
     fetch(url)
     .then(res => res.json())
     .then(
@@ -56,7 +56,7 @@ class AnalyticsGraph extends Component{
   }
 
   getCCTV(){
-    var url = "http://highwayanalytics.us/api/cctv?format=json&county=Riverside,San+Bernardino";
+    var url = "/api/cctv?format=json&county=Riverside,San+Bernardino";
     fetch(url)
     .then(res => res.json())
     .then(
@@ -82,7 +82,7 @@ class AnalyticsGraph extends Component{
   }
 
   getVehiclesPerCCTV(){
-    var url = "http://highwayanalytics.us/api/vehiclesPerCCTV"
+    var url = "/api/vehiclesPerCCTV"
 
     fetch(url)
     .then(res => res.json())
