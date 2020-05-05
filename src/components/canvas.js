@@ -74,7 +74,11 @@ class Canvas extends Component{
 			}
 		}
 		// console.log(this.props.photo_id)
+    	console.log(this.props);
+    	var url = "http://highwayanalytics.us/image/" + this.props.photo_id;
+		console.log(url)
 		return (
+
 			<div className="container" style={{'color':'white', 'paddingTop': '24px'}}>
 				<div className="row">
 					<div className="col-xs-12 col-md-6 col-lg-12">

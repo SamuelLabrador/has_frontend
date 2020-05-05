@@ -354,7 +354,7 @@ class HomepageMap extends Component{
           position = {{lat: d.latitude, lng: d.longitude}}
           lat = {d.latitude}
           long = {d.longitude}
-          image_url = {d.image_url}
+          image_url = {d.photo_id}
           route = {d.route}
         />
     );
