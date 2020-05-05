@@ -300,8 +300,8 @@ class HomepageMap extends Component{
     .then(res => res.json())
     .then(
       (result) => {
-        
-          var photo_id = (result['results'][0]['photo']);
+          // console.log(result);
+          var photo_id = (result['results'][0]['file_name']);
           this.setState({
             activeMarker: marker,
             selectedPlace: props,
@@ -358,7 +358,6 @@ class HomepageMap extends Component{
           route = {d.route}
         />
     );
-    //prev_polyline
 
     var prev_congestion_lines = null;
     prev_congestion_lines = this.state.cctv_objects.map(

@@ -73,7 +73,7 @@ class Canvas extends Component{
 				}
 			}
 		}
-
+		// console.log(this.props.photo_id)
 		return (
 			<div className="container" style={{'color':'white', 'paddingTop': '24px'}}>
 				<div className="row">
