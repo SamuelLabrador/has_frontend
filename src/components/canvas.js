@@ -16,7 +16,7 @@ class Canvas extends Component{
 
 		img.onload = () => {
 			ctx.drawImage(img, 0, 0);
-			var url = "http://highwayanalytics.us/api/vehicle?photo=" + this.props.photo_id; 
+			var url = "http://highwayanalytics.us/api/vehicle?search=" + this.props.photo_id; 
 			fetch(url)
 			.then(res => res.json())
 			.then(
@@ -76,7 +76,7 @@ class Canvas extends Component{
 		// console.log(this.props.photo_id)
     	console.log(this.props);
     	var url = "http://highwayanalytics.us/image/" + this.props.photo_id;
-		console.log(url)
+		// console.log(url)
 		return (
 
 			<div className="container" style={{'color':'white', 'paddingTop': '24px'}}>

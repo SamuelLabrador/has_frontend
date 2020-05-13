@@ -261,6 +261,7 @@ class HomepageMap extends Component{
   componentWillUnmount(){
     clearInterval(this.intervalID);
   }
+
   update_congestion_lines(){
     //Update Congestions Lines
     var cctv_objects_dup = Array.from(this.state.cctv_objects);
@@ -294,7 +295,8 @@ class HomepageMap extends Component{
   }
 
   onMarkerClick = (props, marker) => {
-    var latest_image = "http://highwayanalytics.us/api/vehicle/?cctv=" + props.name;
+    console.log('CCTV NAME', props.name);
+    var latest_image = "http://highwayanalytics.us/api/search/?search=" + props.name;
     
     fetch(latest_image)
     .then(res => res.json())
