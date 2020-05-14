@@ -112,9 +112,11 @@ class AnalyticsGraph extends Component{
     var route = []
     var count = []
 
+    console.log(orderedrouteVehicle);
+    console.log(cctvPerRoute);
     for (var vehicle in orderedrouteVehicle) {
       if(vehicle !== "SR-138" && vehicle !== "SR-18"){
-        sortable.push([vehicle, parseInt(orderedrouteVehicle[vehicle]/cctvPerRoute[vehicle],10) ]);
+        sortable.push([vehicle, parseInt(orderedrouteVehicle[vehicle]/(cctvPerRoute[vehicle]),10) ]);
       }
     }
 
@@ -137,7 +139,7 @@ class AnalyticsGraph extends Component{
               <tr>
                   <th style={{"color":"white"}}>Ranking</th>
                   <th style={{"color":"white"}}>Highway Name</th>
-                  <th style={{"color":"white"}}>Vehicles</th>
+                  <th style={{"color":"white"}}>Vehicle Count per CCTV (Normalized)</th>
               </tr>
           </thead>
           <tbody>
@@ -321,12 +323,12 @@ class AnalyticsGraph extends Component{
         <div className="container">
           
           <div className="row" style={{"backgroundColor":"#393e46"}}>
-            <div className="col-xs-6 col-sm-6 col-lg-6" style={{"width":"700px"}}>
+            <div className="col-xs-12 col-sm-12 col-lg-12" >
               {top5}
             </div>
-            <div className="col-xs-6 col-sm-6 col-lg-6">
+            {/* <div className="col-xs-6 col-sm-6 col-lg-6">
               {vehiclesPerCCTV}
-            </div>
+            </div> */}
           </div>
 
           <div style={{"marginTop":"10px","marginBottom":"10px"}}>

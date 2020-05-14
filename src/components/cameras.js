@@ -39,8 +39,9 @@ class Cameras extends Component{
 				error: true
 			});
 	    });
-  	}
-
+	  }
+	  
+	  
   	renderImages(){
   		var content = [];
   		var row = [];
@@ -56,7 +57,9 @@ class Cameras extends Component{
   			else{
   				row.push(
   					<div className="col" style={{'textAlign': 'center'}}>
-  						<h5 style={{color:"white"}}>{tv.route} ({tv.latitude}, {tv.longitude})</h5>
+  						<h5 style={{color:"white"}}>
+						  <a href={"https://www.google.com/maps/place/" + tv.latitude + "," + tv.longitude} target="_blank">{tv.route}</a>
+						</h5>
   						<img alt="cctv" src={tv.image_url} style={{width:"320px", height:"260px"}}/>
   					</div>
   				);
